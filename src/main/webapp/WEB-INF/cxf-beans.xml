@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:jaxws="http://cxf.apache.org/jaxws"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+						http://www.springframework.org/schema/util
+						http://www.springframework.org/schema/util/spring-util-4.0.xsd
+						http://cxf.apache.org/jaxws
+						http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml"/>
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject">
+			<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+				<property name="targetClass" value="java.lang.System"/>
+				<property name="targetMethod" value="getProperties"/>
+			</bean>
+		</property>
+		<property name="targetMethod" value="putAll"/>
+		<property name="arguments">
+			<util:properties>
+				<prop key="org.apache.cxf.stax.allowInsecureParser">false</prop>
+			</util:properties>
+		</property>
+	</bean>
+
+	<bean id="configService" class="com.bpcbt.sv.camel.ws.ConfigWebService" />
+	<jaxws:endpoint implementor="#configService" address="/config" />
+
+	<bean id="invalidationService" class="com.bpcbt.sv.camel.ws.InvalidationWebService" />
+	<jaxws:endpoint implementor="#invalidationService" address="/invalidate" />
+
+</beans>

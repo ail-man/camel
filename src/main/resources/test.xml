@@ -1,0 +1,15 @@
+<?xml version="1.0"encoding="UTF-8"?>
+<pack>
+	<header>
+		<session-id>12345</session-id>
+		<data-type>POSTING</data-type>
+		<file-name>/opt/workspace/svfe_rnd/src/posting/OPS_20150204_232548_5001.dat</file-name>
+		<number>1</number>
+		<packs-total>3</packs-total>
+		<records-number>1001</records-number>
+		<records-total>2492</records-total>
+		<additional-inf></additional-inf>
+	</header>
+	<body>
+	</body>
+</pack>

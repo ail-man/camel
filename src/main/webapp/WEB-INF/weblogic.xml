@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wls:weblogic-web-app xmlns:wls="http://www.bea.com/ns/weblogic/weblogic-web-app" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bea.com/ns/weblogic/weblogic-web-app        http://www.bea.com/ns/weblogic/weblogic-web-app/1.0/weblogic-web-app.xsd">
+	<wls:session-descriptor>
+		<wls:persistent-store-type>replicated_if_clustered</wls:persistent-store-type>
+		<wls:sharing-enabled>true</wls:sharing-enabled>
+	</wls:session-descriptor>
+	<wls:weblogic-version>12</wls:weblogic-version>
+	<wls:container-descriptor>
+		<wls:prefer-application-packages>
+			<wls:package-name>org.apache.commons.pool.*</wls:package-name>
+			<wls:package-name>org.slf4j.*</wls:package-name>
+			<wls:package-name>org.apache.logging.*</wls:package-name>
+			<package-name>com.ctc.wstx.*</package-name>
+		</wls:prefer-application-packages>
+	</wls:container-descriptor>
+	<wls:library-ref>
+		<wls:library-name>CamelConverters</wls:library-name>
+		<wls:specification-version>1.0</wls:specification-version>
+		<wls:exact-match>true</wls:exact-match>
+	</wls:library-ref>
+	<wls:library-ref>
+		<wls:library-name>CamelIsoConverters</wls:library-name>
+		<wls:specification-version>1.0</wls:specification-version>
+		<wls:exact-match>true</wls:exact-match>
+	</wls:library-ref>
+	<wls:context-root>/camel</wls:context-root>
+</wls:weblogic-web-app>

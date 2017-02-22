@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="30">
+	<Appenders>
+		<RollingRandomAccessFile name="rollingFileAppender" fileName="${bundle:default:log_path}/${bundle:default:app_name}.log"
+								 filePattern="${bundle:default:log_path}/$${date:yyyy-MM}/${bundle:default:app_name}-%d{yyyy-MM-dd}-%i.log.zip">
+			<PatternLayout>
+				<pattern>${bundle:default:log_pattern}</pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="${bundle:default:max_log_size}"/>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+			</Policies>
+			<DefaultRolloverStrategy compressionLevel="9"/>
+		</RollingRandomAccessFile>
+		<RollingRandomAccessFile name="rollingFileAppenderError"
+								 fileName="${bundle:default:log_path}/${bundle:default:app_name}-error.log"
+								 filePattern="${bundle:default:log_path}/$${date:yyyy-MM}/${bundle:default:app_name}-error-%d{yyyy-MM-dd}-%i.log.zip">
+			<PatternLayout>
+				<pattern>${bundle:default:log_pattern}</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+			</Policies>
+		</RollingRandomAccessFile>
+		<RollingRandomAccessFile name="rollingFileAppenderAll" fileName="${bundle:default:log_path}/${bundle:default:app_name}-all.log"
+								 filePattern="${bundle:default:log_path}/$${date:yyyy-MM}/${bundle:default:app_name}-all-%d{yyyy-MM-dd}-%i.log.zip">
+			<PatternLayout>
+				<pattern>${bundle:default:log_pattern}</pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="${bundle:default:max_log_size}"/>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+			</Policies>
+			<DefaultRolloverStrategy compressionLevel="9"/>
+		</RollingRandomAccessFile>
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout pattern="${bundle:default:log_pattern}"/>
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Logger name="org.apache.activemq.transport.AbstractInactivityMonitor" level="info">
+			<AppenderRef ref="rollingFileAppender" level="info"/>
+			<AppenderRef ref="rollingFileAppenderError" level="error"/>
+		</Logger>
+		<Logger name="${bundle:default:core_package}" level="debug">
+			<AppenderRef ref="rollingFileAppender" level="debug"/>
+			<AppenderRef ref="rollingFileAppenderError" level="error"/>
+		</Logger>
+		<Root level="debug">
+			<AppenderRef ref="rollingFileAppenderAll" level="debug"/>
+			<AppenderRef ref="STDOUT"/>
+		</Root>
+	</Loggers>
+</Configuration>

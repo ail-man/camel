@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="sv_sync"
+				  targetNamespace="urn:com:bpcbt:sv:sv_sync"
+				  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				  xmlns:tns="urn:com:bpcbt:sv:sv_sync"
+				  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+				  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+	<wsdl:types>
+		<xsd:schema targetNamespace="urn:com:bpcbt:sv:sv_sync">
+			<xsd:import namespace="urn:com:bpcbt:sv:sv_sync" schemaLocation="InvalidationMessages.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="cancellationRequest">
+		<wsdl:part name="parameters" element="tns:cancellation-request"/>
+	</wsdl:message>
+
+	<wsdl:portType name="svsyncAsync">
+		<wsdl:operation name="cancel">
+			<wsdl:input name="cancellationRequest" message="tns:cancellationRequest"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="svsyncAsyncSOAPBinding" type="tns:svsyncAsync">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+		<wsdl:operation name="cancel">
+			<soap:operation style="document" soapAction="urn:com:bpcbt:sv:sv_sync:cancel"/>
+			<wsdl:input>
+				<soap:body use="literal" parts="parameters"/>
+			</wsdl:input>
+		</wsdl:operation>
+
+	</wsdl:binding>
+
+	<wsdl:service name="svsyncService">
+		<wsdl:port name="svsyncPort" binding="tns:svsyncAsyncSOAPBinding">
+			<soap:address location="http://localhost:9000/sv_sync"/>
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

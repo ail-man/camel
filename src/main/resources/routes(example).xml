@@ -1,0 +1,14 @@
+<routes>
+	<route>
+		<from>activemq:queue:inbox?concurrentConsumers=2</from>
+		<to>activemq:queue:outbox</to>
+		<converter>com.bpcbt.sv.camel.converters.UpperCaseConverter</converter>
+		<encoding>ASCII</encoding>
+	</route>
+	<route>
+		<from>activemq:queue:inbox2?concurrentConsumers=2</from>
+		<to>activemq:queue:outbox2</to>
+		<converter>com.bpcbt.sv.camel.converters.UpperCaseConverter</converter>
+		<encoding>ASCII</encoding>
+	</route>
+</routes>
