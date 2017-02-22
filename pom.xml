@@ -81,6 +81,11 @@
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 		<!--Camel dependencies -->
 		<dependency>
 			<groupId>org.apache.camel</groupId>
@@ -100,6 +105,11 @@
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-spring-javaconfig</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jdbc</artifactId>
 			<version>${camel.version}</version>
 		</dependency>
 		<!--Camel IBM WMQ component -->
@@ -151,14 +161,14 @@
 			<artifactId>log4j-slf4j-impl</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
-
+		<!--JMS Implementation for testing purpose -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
-
+		<!--conf-remapper -->
 		<dependency>
 			<groupId>com.bpcbt.converters</groupId>
 			<artifactId>conf-remapper</artifactId>
@@ -275,16 +285,14 @@
 	</build>
 	<profiles>
 		<profile>
-			<!-- This is for development purposes, to launch camel app in jetty container
-					via maven -->
+			<!-- This is for development purposes, to launch camel app in jetty container via maven -->
 			<id>jetty</id>
-
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>org.eclipse.jetty</groupId>
 						<artifactId>jetty-maven-plugin</artifactId>
-						<version>9.3.3.v20150827</version>
+						<version>9.3.7.v20160115</version>
 						<dependencies>
 							<dependency>
 								<groupId>org.apache.logging.log4j</groupId>
