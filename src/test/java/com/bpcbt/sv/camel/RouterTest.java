@@ -9,9 +9,12 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.component.wmq.WmqComponent;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.apache.camel.test.spring.CamelSpringTestSupport;
 import org.junit.Test;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class RouterTest {
+public class RouterTest extends CamelSpringTestSupport {
 
 	private static final String HOSTNAME = "mint";
 	private static final int PORT = 1414;
@@ -19,6 +22,11 @@ public class RouterTest {
 	private static final String CHANNEL = "HPT5.CLNT.WL";
 	private static final String MQ_PASS = "mquser";
 	private static final String MQ_USER = MQ_PASS;
+
+	@Override
+	protected AbstractApplicationContext createApplicationContext() {
+		return new ClassPathXmlApplicationContext("/applicationContextTest.xml");
+	}
 
 	@Test
 	public void testCamel() throws Exception {
