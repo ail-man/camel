@@ -39,13 +39,16 @@ public class RouterTest extends CamelSpringTestSupport {
 			@Override
 			public void configure() throws Exception {
 				from("wmq:MQTestQueue?username=" + MQ_USER + "&password=" + MQ_PASS)
-						.to("file://target/testRoute");
+						//						.to("file://target/testRoute")
+						.to("stream:out");
 			}
 		});
+
 		ProducerTemplate template = context.createProducerTemplate();
 		for (int i = 0; i < 10; i++) {
 			template.sendBodyAndHeader("wmq:MQTestQueue?username=" + MQ_USER + "&password=" + MQ_PASS, "I new test message " + i, "JMS_IBM_MQMD_ApplIdentityData", "anyIdData");
 		}
+
 		context.start();
 		// wait a bit and then stop
 		Thread.sleep(1000);
