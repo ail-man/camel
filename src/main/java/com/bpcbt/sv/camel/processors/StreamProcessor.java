@@ -1,5 +1,8 @@
 package com.bpcbt.sv.camel.processors;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
 import com.bpcbt.sv.camel.converters.StreamConverter;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -7,9 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 
 @Component
 @Scope("prototype")
@@ -30,17 +30,21 @@ public class StreamProcessor implements Processor {
 			input = (InputStream) exchange.getIn().getBody();
 			output = new ByteArrayOutputStream();
 			Object breadcrumbId = exchange.getIn().getHeader("breadcrumbId");
-			if(breadcrumbId != null){
+			if (breadcrumbId != null) {
 				converter.setHeader("MessageID", breadcrumbId.toString());
 			}
 			converter.convert(input, output);
-			exchange.getOut().setHeader("JMSCorrelationID", converter.getHeader("CorrelationID")); 
+			exchange.getOut().setHeader("JMSCorrelationID", converter.getHeader("CorrelationID"));
 			exchange.getOut().setBody(output.toByteArray());
 		} catch (Exception ex) {
 			logger.error("Error in converter", ex);
 		} finally {
-			input.close();
-			output.close();
+			if (input != null) {
+				input.close();
+			}
+			if (output != null) {
+				output.close();
+			}
 		}
 	}
 

@@ -9,8 +9,8 @@ public interface StreamConverter {
 	void reloadConfig(String file) throws Exception;
 
 	void invalidate(String sessionId) throws Exception;
-	
+
 	String getHeader(String key);
-	
+
 	void setHeader(String key, String value);
 }

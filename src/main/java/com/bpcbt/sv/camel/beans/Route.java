@@ -32,10 +32,10 @@ public class Route {
 	public void setFormat(String format) {
 		this.format = format;
 	}
-	
-	public void addField(Field field){
-		if(fields == null){
-			fields = new ArrayList<Field>();
+
+	public void addField(Field field) {
+		if (fields == null) {
+			fields = new ArrayList<>();
 		}
 		fields.add(field);
 	}
@@ -51,7 +51,7 @@ public class Route {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for(Field field : fields){
+		for (Field field : fields) {
 			sb.append(field).append(" ");
 		}
 		return String.format("{from='%s', '%s', encoding='%s', format='%s'}", from, sb.toString(), encoding, format);

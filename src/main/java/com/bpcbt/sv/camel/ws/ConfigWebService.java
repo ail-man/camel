@@ -1,24 +1,29 @@
 package com.bpcbt.sv.camel.ws;
 
-import com.bpcbt.converters.remapper.Processor;
-import com.bpcbt.sv.camel.Router;
-import com.bpcbt.sv.camel.utils.FileUtils;
-import com.bpcbt.sv.config.message.v1.*;
-import com.bpcbt.sv.config.message.v1.Void;
-import com.bpcbt.sv.config.service.v1.*;
-import com.bpcbt.sv.config.service.v1.Fault;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
-import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
+
+import javax.annotation.PostConstruct;
+import javax.xml.bind.JAXBException;
+
+import com.bpcbt.converters.remapper.Processor;
+import com.bpcbt.sv.camel.Router;
+import com.bpcbt.sv.camel.utils.FileUtils;
+import com.bpcbt.sv.config.message.v1.Config;
+import com.bpcbt.sv.config.message.v1.FileList;
+import com.bpcbt.sv.config.message.v1.Remap;
+import com.bpcbt.sv.config.message.v1.RemapResult;
+import com.bpcbt.sv.config.message.v1.SaveResult;
+import com.bpcbt.sv.config.message.v1.Void;
+import com.bpcbt.sv.config.service.v1.ConfigPortType;
+import com.bpcbt.sv.config.service.v1.Fault;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 public class ConfigWebService implements ConfigPortType {
 	private static final Logger logger = LogManager.getLogger(ConfigWebService.class);
@@ -37,7 +42,7 @@ public class ConfigWebService implements ConfigPortType {
 	public Config getConfig(Config request) {
 		String fileName = request.getFilename();
 		logger.info("Received request for config file: " + fileName);
-		String content = "";
+		String content;
 		try {
 			content = FileUtils.readFile(configFolder + fileName, request.getEncoding());
 		} catch (Exception ex) {
@@ -51,7 +56,7 @@ public class ConfigWebService implements ConfigPortType {
 	@Override
 	public FileList getFiles(Void request) {
 		FileList response = new FileList();
-		List<String> files = new ArrayList<String>();
+		List<String> files = new ArrayList<>();
 		getFiles(new File(configFolder), files);
 		response.getFile().addAll(files);
 		return response;
@@ -62,7 +67,7 @@ public class ConfigWebService implements ConfigPortType {
 		SaveResult result = new SaveResult();
 		try {
 			String content = ((String) request.getConfig()).replaceAll("(\\<\\!\\[CDATA\\[|\\]\\]\\>)", "").trim();
-			if (content != null && !content.trim().isEmpty()) {
+			if (!content.trim().isEmpty()) {
 				FileUtils.writeFile(content, configFolder + request.getFilename(), request.getEncoding());
 			} else {
 				throw new Exception("Empty config content");
@@ -96,21 +101,21 @@ public class ConfigWebService implements ConfigPortType {
 			Processor processor = new Processor();
 			processor.processAll(request.getConfDir().trim(), request.getConfDirExt().trim());
 			result.setResult("Ok");
-		} catch(FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			logger.error("Remap error", e);
 			com.bpcbt.sv.config.message.v1.Fault fault = new com.bpcbt.sv.config.message.v1.Fault();
 			fault.setCode("100");
 			fault.setDescription(e.getMessage());
 			throw new Fault(e.getMessage(), fault);
-		} catch(JAXBException e) {
+		} catch (JAXBException e) {
 			logger.error("Remap error", e);
 			com.bpcbt.sv.config.message.v1.Fault fault = new com.bpcbt.sv.config.message.v1.Fault();
 			fault.setCode("101");
 			fault.setDescription(e.getMessage());
 			throw new Fault(e.getMessage(), fault);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			logger.error("Remap error", e);
-			throw new Fault("ERROR",e);
+			throw new Fault("ERROR", e);
 		}
 		return result;
 	}

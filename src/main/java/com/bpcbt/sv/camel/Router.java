@@ -1,5 +1,16 @@
 package com.bpcbt.sv.camel;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentSkipListMap;
+
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamReader;
+
 import com.bpcbt.sv.camel.beans.Field;
 import com.bpcbt.sv.camel.beans.Route;
 import com.bpcbt.sv.camel.configuration.RouterStreamLoader;
@@ -14,16 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentSkipListMap;
-
 @Component
 public class Router extends SpringRouteBuilder {
 	public static final String SESSION_ID_ATTR = "session-id";
@@ -35,6 +36,12 @@ public class Router extends SpringRouteBuilder {
 	private ApplicationContext context;
 	private List<StreamProcessor> processors = new ArrayList<>();
 	private Map<String, Long> invalidSessions = new ConcurrentSkipListMap<>();
+	private ThreadLocal<XMLInputFactory> xmlFactoryProvider = new ThreadLocal<XMLInputFactory>() {
+		@Override
+		protected XMLInputFactory initialValue() {
+			return XMLInputFactory.newInstance();
+		}
+	};
 
 	@SuppressWarnings("UnusedDeclaration")
 	public boolean isValidSession(Exchange exchange) {
@@ -118,13 +125,6 @@ public class Router extends SpringRouteBuilder {
 		}
 	}
 
-	private ThreadLocal<XMLInputFactory> xmlFactoryProvider = new ThreadLocal<XMLInputFactory>() {
-		@Override
-		protected XMLInputFactory initialValue() {
-			return XMLInputFactory.newInstance();
-		}
-	};
-
 	// Extract session id from message without using Camel's built in XPath filter
 	// because message may contain some charachters (encapsulated in cdata) that are not valid for xml charset
 	// and since we do not encode cdata section with base64, we have to parse xml as stream, trying to find session id
@@ -133,7 +133,8 @@ public class Router extends SpringRouteBuilder {
 		Object body = exchange.getIn().getBody();
 		if (body != null) {
 			try (InputStream is = body instanceof byte[] ?
-					new ByteArrayInputStream((byte[]) body) : exchange.getIn().getBody(InputStream.class)) {
+					new ByteArrayInputStream((byte[]) body) : exchange.getIn().getBody(InputStream.class))
+			{
 				XMLStreamReader reader = xmlFactoryProvider.get().createXMLStreamReader(is);
 				try {
 					StringBuilder sessionIdBuf = null;
@@ -141,19 +142,19 @@ public class Router extends SpringRouteBuilder {
 						reader.next();
 						int xmlEvent = reader.getEventType();
 						switch (xmlEvent) {
-							case XMLStreamConstants.START_ELEMENT:
-								String name = reader.getName().getLocalPart();
-								if (name.equals(SESSION_ID_ATTR))
-									sessionIdBuf = new StringBuilder();
-								break;
-							case XMLStreamConstants.CHARACTERS:
-								if (sessionIdBuf != null)
-									sessionIdBuf.append(reader.getText());
-								break;
-							case XMLStreamConstants.END_ELEMENT:
-								if (sessionIdBuf != null)
-									return sessionIdBuf.toString();
-								break;
+						case XMLStreamConstants.START_ELEMENT:
+							String name = reader.getName().getLocalPart();
+							if (name.equals(SESSION_ID_ATTR))
+								sessionIdBuf = new StringBuilder();
+							break;
+						case XMLStreamConstants.CHARACTERS:
+							if (sessionIdBuf != null)
+								sessionIdBuf.append(reader.getText());
+							break;
+						case XMLStreamConstants.END_ELEMENT:
+							if (sessionIdBuf != null)
+								return sessionIdBuf.toString();
+							break;
 						}
 					}
 				} finally {
