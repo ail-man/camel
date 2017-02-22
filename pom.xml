@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,7 +15,7 @@
         <spring.version>4.0.6.RELEASE</spring.version>
         <log4j.version>2.3</log4j.version>
         <activemq.version>5.10.0</activemq.version>
-        <camel.version>2.14.0</camel.version>
+        <camel.version>2.17.5</camel.version>
         <cxf.version>3.0.1</cxf.version>
         <wsdl.dir>${basedir}/src/main/resources/wsdl</wsdl.dir>
     </properties>
@@ -46,6 +46,12 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-spring</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+        <!--Camel IBM WMQ component -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-wmq</artifactId>
             <version>${camel.version}</version>
         </dependency>
         <!--Active MQ dependencies -->
@@ -215,8 +221,8 @@
     </build>
     <profiles>
         <profile>
-            <!-- This is for development purposes, to launch camel app in jetty container 
-                via maven -->
+            <!-- This is for development purposes, to launch camel app in jetty container
+								via maven -->
             <id>jetty</id>
 
             <build>
