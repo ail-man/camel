@@ -31,34 +31,18 @@ public class RouterTest {
 			@Override
 			public void configure() throws Exception {
 				from("wmq:MQTestQueue?username=" + MQ_USER + "&password=" + MQ_PASS)
-						.to("stream:out");
+						.to("file://target/testRoute");
 			}
 		});
+		ProducerTemplate template = context.createProducerTemplate();
+		for (int i = 0; i < 10; i++) {
+			template.sendBodyAndHeader("wmq:MQTestQueue?username=" + MQ_USER + "&password=" + MQ_PASS, "I new test message " + i, "JMS_IBM_MQMD_ApplIdentityData", "anyIdData");
+		}
 		context.start();
+		// wait a bit and then stop
+		Thread.sleep(1000);
+		context.stop();
 	}
-
-	//	@Override
-	//	protected CamelContext createCamelContext() throws Exception {
-	//		CamelContext context = super.createCamelContext();
-	//		context.addComponent("wmq", WmqComponent.newWmqComponent("mint", 1414, "MQTest", "HPT5.CLNT.WL")
-	//				.excludeRFHeaders());
-	//		return context;
-	//	}
-
-	@Test
-	public void send_and_receive() throws Exception {
-		//		template().sendBodyAndHeader("wmq:MQTestQueue?username=mquser&password=mquser", "aMessage", "JMS_IBM_MQMD_ApplIdentityData", "anyIdData");
-		//
-		//		Exchange received = consumer().receive("wmq:MQTestQueue?username=mquser&password=mquser");
-		//		Message in = received.getIn();
-		//
-		//		assertEquals("aMessage", in.getBody());
-		//		assertStartsWith(in.getHeader("JMS_IBM_MQMD_ApplIdentityData").toString(), "anyIdData");
-	}
-
-	//	private void assertStartsWith(String string, String starts) {
-	//		assertTrue(string.startsWith(starts));
-	//	}
 
 	@Test
 	public void testCamel2() throws Exception {
