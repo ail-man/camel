@@ -21,11 +21,13 @@ public class AuthTransactionListController {
 
 	private final CamelContext camelContext;
 	private final ApplicationContext springContext;
+	private final AuthTransactionListProcessor authTransactionListProcessor;
 
 	@Autowired
-	public AuthTransactionListController(CamelContext camelContext, ApplicationContext springContext) {
+	public AuthTransactionListController(CamelContext camelContext, ApplicationContext springContext, AuthTransactionListProcessor authTransactionListProcessor) {
 		this.camelContext = camelContext;
 		this.springContext = springContext;
+		this.authTransactionListProcessor = authTransactionListProcessor;
 	}
 
 	public void configure(final Properties props) throws Exception {
@@ -40,7 +42,7 @@ public class AuthTransactionListController {
 
 		camelContext.addComponent(COMPONENT_NAME, wmqComponent);
 
-		final AuthTransactionListRouterBuilder authTransactionListRouterBuilder = springContext.getBean(AuthTransactionListRouterBuilder.class, user, pass);
+		final AuthTransactionListRouterBuilder authTransactionListRouterBuilder = springContext.getBean(AuthTransactionListRouterBuilder.class, user, pass, authTransactionListProcessor);
 
 		camelContext.addRoutes(authTransactionListRouterBuilder);
 	}
