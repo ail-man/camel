@@ -70,6 +70,12 @@
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc</artifactId>
+			<version>10.2.0.4</version>
+			<scope>test</scope>
+		</dependency>
 		<!--Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
