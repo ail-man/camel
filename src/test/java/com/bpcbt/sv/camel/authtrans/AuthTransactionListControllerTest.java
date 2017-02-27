@@ -7,6 +7,7 @@ import static com.bpcbt.sv.camel.authtrans.AuthTransactionListController.PROP_HO
 import static com.bpcbt.sv.camel.authtrans.AuthTransactionListController.PROP_PASS;
 import static com.bpcbt.sv.camel.authtrans.AuthTransactionListController.PROP_PORT;
 import static com.bpcbt.sv.camel.authtrans.AuthTransactionListController.PROP_QMANAGER;
+import static com.bpcbt.sv.camel.authtrans.AuthTransactionListController.PROP_QUEUENAME;
 import static com.bpcbt.sv.camel.authtrans.AuthTransactionListController.PROP_USER;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
@@ -44,6 +45,7 @@ public class AuthTransactionListControllerTest {
 		properties.put(PROP_CHANNEL, CHANNEL);
 		properties.put(PROP_USER, MQ_USER);
 		properties.put(PROP_PASS, MQ_PASS);
+		properties.put(PROP_QUEUENAME, QUEUE_NAME);
 		authTransactionListController.configure(properties);
 	}
 
