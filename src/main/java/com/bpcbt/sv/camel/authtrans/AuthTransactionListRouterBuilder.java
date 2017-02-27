@@ -22,6 +22,6 @@ public class AuthTransactionListRouterBuilder extends RouteBuilder {
 	public void configure() throws Exception {
 		from("wmq:MQTestQueue?username=" + user + "&password=" + pass)
 				.process(authTransactionListProcessor)
-				.to("stream:out");
+				.dynamicRouter(method(AuthTransactionListDynamicRoute.class, "routeTo"));
 	}
 }

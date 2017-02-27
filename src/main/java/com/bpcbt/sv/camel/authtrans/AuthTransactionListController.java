@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 public class AuthTransactionListController {
 
 	public static final String COMPONENT_NAME = "wmq";
+
 	public static final String PROP_HOSTNAME = "org.apache.camel.component.wmq.hostname";
 	public static final String PROP_PORT = "org.apache.camel.component.wmq.port";
 	public static final String PROP_QMANAGER = "org.apache.camel.component.wmq.qmanager";

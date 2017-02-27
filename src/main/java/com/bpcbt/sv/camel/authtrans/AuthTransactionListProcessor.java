@@ -3,6 +3,7 @@ package com.bpcbt.sv.camel.authtrans;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 
 import javax.sql.DataSource;
 
@@ -27,9 +28,12 @@ public class AuthTransactionListProcessor implements Processor {
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		System.out.println("AuthTransactionListProcessor: " + exchange.getIn().getBody());
+		String msg = exchange.getIn().getBody().toString();
+		logger.info("AuthTransactionListProcessor: " + msg);
 		String someData = getSomeDataFromDb();
-		exchange.getOut().setBody(someData);
+		exchange.getOut().setBody(someData + ": " + msg);
+
+		exchange.setProperty("properties", new HashMap<String, Object>());
 	}
 
 	private String getSomeDataFromDb() {
