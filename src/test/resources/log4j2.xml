@@ -8,7 +8,7 @@
 		<console name="console" target="SYSTEM_OUT">
 			<patternlayout pattern="${pattern}"/>
 		</console>
-		<file name="file" fileName="log/test.log">
+		<file name="file" fileName="target/log/test.log">
 			<patternlayout pattern="${pattern}"/>
 		</file>
 	</appenders>
