@@ -36,12 +36,19 @@ public class AuthTransactionListControllerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		configWmqComponent();
-		sendTestMessages();
+		Properties properties = new Properties();
+		properties.put(PROP_HOSTNAME, HOSTNAME);
+		properties.put(PROP_PORT, PORT);
+		properties.put(PROP_QMANAGER, QUEUE_MANAGER);
+		properties.put(PROP_CHANNEL, CHANNEL);
+		properties.put(PROP_USER, MQ_USER);
+		properties.put(PROP_PASS, MQ_PASS);
+		authTransactionListController.configure(properties);
 	}
 
 	@Test
 	public void testApp() throws Exception {
+		sendTestMessages();
 		Thread.sleep(1000);
 	}
 
@@ -52,14 +59,4 @@ public class AuthTransactionListControllerTest {
 		}
 	}
 
-	private void configWmqComponent() throws Exception {
-		Properties properties = new Properties();
-		properties.put(PROP_HOSTNAME, HOSTNAME);
-		properties.put(PROP_PORT, PORT);
-		properties.put(PROP_QMANAGER, QUEUE_MANAGER);
-		properties.put(PROP_CHANNEL, CHANNEL);
-		properties.put(PROP_USER, MQ_USER);
-		properties.put(PROP_PASS, MQ_PASS);
-		authTransactionListController.configure(properties);
-	}
 }
