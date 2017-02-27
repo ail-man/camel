@@ -17,7 +17,7 @@ public class AuthTransactionListDynamicRoute {
 		properties.put("invoked", invoked);
 
 		if (invoked == 1) {
-			return "stream:out";
+			return "stream:out"; // TODO "wmq:"
 		}
 
 		return null;

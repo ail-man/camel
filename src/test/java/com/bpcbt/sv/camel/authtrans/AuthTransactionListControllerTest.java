@@ -27,6 +27,7 @@ public class AuthTransactionListControllerTest {
 	private static final String CHANNEL = "HPT5.CLNT.WL";
 	private static final String MQ_USER = "mquser";
 	private static final String MQ_PASS = "mquser";
+	private static final String QUEUE_NAME = "MQTestQueue";
 
 	@Autowired
 	private CamelContext camelContext;
@@ -55,7 +56,7 @@ public class AuthTransactionListControllerTest {
 	private void sendTestMessages() {
 		ProducerTemplate template = camelContext.createProducerTemplate();
 		for (int i = 0; i < 10; i++) {
-			template.sendBodyAndHeader("wmq:MQTestQueue?username=" + MQ_USER + "&password=" + MQ_PASS, "I new test message " + i, "JMS_IBM_MQMD_ApplIdentityData", "anyIdData");
+			template.sendBodyAndHeader("wmq:" + QUEUE_NAME + "?username=" + MQ_USER + "&password=" + MQ_PASS, "I new test message " + i, "JMS_IBM_MQMD_ApplIdentityData", "anyIdData");
 		}
 	}
 
