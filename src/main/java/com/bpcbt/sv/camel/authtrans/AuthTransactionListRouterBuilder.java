@@ -1,22 +1,24 @@
 package com.bpcbt.sv.camel.authtrans;
 
-import org.apache.camel.component.wmq.WmqComponent;
-import org.apache.camel.spring.SpringRouteBuilder;
+import org.apache.camel.builder.RouteBuilder;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-public class AuthTransactionListRouterBuilder extends SpringRouteBuilder {
-	static final String MQ_USER = "mquser";
-	static final String MQ_PASS = "mquser";
+@Component
+@Scope("prototype")
+public class AuthTransactionListRouterBuilder extends RouteBuilder {
 
-	private final WmqComponent wmq;
+	private final String user;
+	private final String pass;
 
-	public AuthTransactionListRouterBuilder(WmqComponent wmq) {
-		this.wmq = wmq;
+	public AuthTransactionListRouterBuilder(String user, String pass) {
+		this.user = user;
+		this.pass = pass;
 	}
 
 	@Override
 	public void configure() throws Exception {
-		from("wmq:MQTestQueue?username=" + MQ_USER + "&password=" + MQ_PASS)
+		from("wmq:MQTestQueue?username=" + user + "&password=" + pass)
 				.to("stream:out");
 	}
-
 }
