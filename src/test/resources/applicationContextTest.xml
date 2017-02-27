@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns:context="http://www.springframework.org/schema/context"
-			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			 xmlns:camel="http://camel.apache.org/schema/spring"
 			 xmlns="http://www.springframework.org/schema/beans"
 			 xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans.xsd
-                        http://www.springframework.org/schema/context
-                        http://www.springframework.org/schema/context/spring-context.xsd
-
-
                         http://camel.apache.org/schema/spring
        					http://camel.apache.org/schema/spring/camel-spring.xsd">
-	<context:annotation-config/>
-	<context:component-scan base-package="com.bpcbt.sv.camel"/>
-	<!--Camel-->
-	<camel:camelContext id="camel">
-		<camel:package>com.bpcbt.sv.camel.authtrans</camel:package>
-	</camel:camelContext>
 	<!-- Camel IBM WMQ Component-->
-	<bean id="wmqComponent" class="org.apache.camel.component.wmq.WmqComponent" factory-method="newWmqComponent">
+	<bean id="wmq" class="org.apache.camel.component.wmq.WmqComponent" factory-method="newWmqComponent">
 		<constructor-arg index="0" type="java.lang.String" value="mint"/>
 		<constructor-arg index="1" type="java.lang.Integer" value="1414"/>
 		<constructor-arg index="2" type="java.lang.String" value="MQTest"/>
 		<constructor-arg index="3" type="java.lang.String" value="HPT5.CLNT.WL"/>
 	</bean>
+	<!-- Auth transaction list router builder -->
+	<bean id="authTransactionListRouterBuilder" class="com.bpcbt.sv.camel.authtrans.AuthTransactionListRouterBuilder">
+		<constructor-arg name="wmq" ref="wmq"/>
+	</bean>
+	<!-- Camel configuration -->
+	<camel:camelContext id="camelContext">
+		<camel:package>com.bpcbt.sv.camel.authtrans</camel:package>
+		<camel:routeBuilder ref="authTransactionListRouterBuilder"/>
+	</camel:camelContext>
 </beans>
