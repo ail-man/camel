@@ -14,6 +14,12 @@
 		<property name="username" value="svrm_test"/>
 		<property name="password" value="1"/>
 	</bean>
+	<!--Setup datasource example 1 -->
+	<!--<jee:jndi-lookup id="dbDataSource" jndi-name="jdbc/SVWeb" expected-type="javax.sql.DataSource"/>-->
+	<!--Setup datasource example 2 -->
+	<!--<bean id="boDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">-->
+	<!--<property name="jndiName" value="java:comp/env/jdbc/SVWeb"/>-->
+	<!--</bean>-->
 	<camel:camelContext id="camelContext">
 		<camel:contextScan/>
 	</camel:camelContext>
