@@ -21,7 +21,7 @@ public class RouterTest extends CamelSpringTestSupport {
 	private static final String QUEUE_MANAGER = "MQTest";
 	private static final String CHANNEL = "HPT5.CLNT.WL";
 	private static final String MQ_PASS = "mquser";
-	private static final String MQ_USER = MQ_PASS;
+	private static final String MQ_USER = "mquser";
 
 	@Override
 	protected AbstractApplicationContext createApplicationContext() {
