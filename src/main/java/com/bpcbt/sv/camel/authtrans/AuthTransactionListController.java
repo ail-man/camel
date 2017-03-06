@@ -17,6 +17,7 @@ public class AuthTransactionListController {
 	public static final String PROP_PORT = "org.apache.camel.component.wmq.port";
 	public static final String PROP_QMANAGER = "org.apache.camel.component.wmq.qmanager";
 	public static final String PROP_CHANNEL = "org.apache.camel.component.wmq.channel";
+	public static final String PROP_CIPHER = "org.apache.camel.component.wmq.cipher";
 	public static final String PROP_USER = "org.apache.camel.component.wmq.user";
 	public static final String PROP_PASS = "org.apache.camel.component.wmq.pass";
 	public static final String PROP_QUEUENAME = "org.apache.camel.component.wmq.queuename";
@@ -37,11 +38,12 @@ public class AuthTransactionListController {
 		final String port = props.getProperty(PROP_PORT);
 		final String queueManager = props.getProperty(PROP_QMANAGER);
 		final String channel = props.getProperty(PROP_CHANNEL);
+		final String cipher = props.getProperty(PROP_CIPHER);
 		final String user = props.getProperty(PROP_USER);
 		final String pass = props.getProperty(PROP_PASS);
 		final String queueName = props.getProperty(PROP_QUEUENAME);
 
-		final WmqComponent wmqComponent = WmqComponent.newWmqComponent(hostname, Integer.parseInt(port), queueManager, channel);
+		final WmqComponent wmqComponent = WmqComponent.newWmqComponent(hostname, Integer.parseInt(port), queueManager, channel, cipher);
 
 		camelContext.addComponent(COMPONENT_NAME, wmqComponent);
 
