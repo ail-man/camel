@@ -10,6 +10,7 @@ import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.component.wmq.WmqComponent;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.test.spring.CamelSpringTestSupport;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -22,17 +23,30 @@ public class RouterTest extends CamelSpringTestSupport {
 	private static final String CHANNEL = "HPT5.CLNT.WL";
 	private static final String MQ_PASS = "mquser";
 	private static final String MQ_USER = "mquser";
+	private static final String CIPHER = "TLS_RSA_WITH_AES_128_CBC_SHA256";
 
 	@Override
 	protected AbstractApplicationContext createApplicationContext() {
 		return new ClassPathXmlApplicationContext("/applicationContextTest.xml");
 	}
 
+	@Before
+	public void setUp() {
+		System.setProperty("javax.net.ssl.keyStore", "src/test/resources/APP1.jks");
+		System.setProperty("javax.net.ssl.keyStorePassword", "mint");
+		System.setProperty("javax.net.ssl.trustStore", "src/test/resources/APP1.jks");
+		System.setProperty("javax.net.ssl.trustStorePassword", "mint");
+
+		System.setProperty("javax.net.debug", "all");
+		System.setProperty("com.ibm.mq.cfg.useIBMCipherMappings", "false");
+		System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+
+		context = new DefaultCamelContext();
+	}
+
 	@Test
 	public void testCamel() throws Exception {
-		CamelContext context = new DefaultCamelContext();
-
-		WmqComponent wmqComponent = WmqComponent.newWmqComponent(HOSTNAME, PORT, QUEUE_MANAGER, CHANNEL).excludeRFHeaders();
+		WmqComponent wmqComponent = WmqComponent.newWmqComponent(HOSTNAME, PORT, QUEUE_MANAGER, CHANNEL, CIPHER).excludeRFHeaders();
 		context.addComponent("wmq", wmqComponent);
 
 		context.addRoutes(new RouteBuilder() {

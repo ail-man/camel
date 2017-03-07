@@ -1,30 +1,37 @@
 package com.bpcbt.sv.camel.authtrans;
 
-import java.util.Properties;
-
 import org.apache.camel.CamelContext;
 import org.apache.camel.component.wmq.WmqComponent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class AuthTransactionListController {
 
-	public static final String COMPONENT_NAME = "wmq";
-
-	public static final String PROP_HOSTNAME = "org.apache.camel.component.wmq.hostname";
-	public static final String PROP_PORT = "org.apache.camel.component.wmq.port";
-	public static final String PROP_QMANAGER = "org.apache.camel.component.wmq.qmanager";
-	public static final String PROP_CHANNEL = "org.apache.camel.component.wmq.channel";
-	public static final String PROP_CIPHER = "org.apache.camel.component.wmq.cipher";
-	public static final String PROP_USER = "org.apache.camel.component.wmq.user";
-	public static final String PROP_PASS = "org.apache.camel.component.wmq.pass";
-	public static final String PROP_QUEUENAME = "org.apache.camel.component.wmq.queuename";
+	private static final String COMPONENT_NAME = "wmq";
 
 	private final CamelContext camelContext;
 	private final ApplicationContext springContext;
 	private final AuthTransactionListProcessor authTransactionListProcessor;
+
+	@Value("${ibm_wmq_host}")
+	private String ibmWmqHost;
+	@Value("${ibm_wmq_port}")
+	private String ibmWmqPort;
+	@Value("${ibm_wmq_queue_manager}")
+	private String ibmWmqQueueManager;
+	@Value("${ibm_wmq_channel}")
+	private String ibmWmqChannel;
+	@Value("${ibm_wmq_ssl_cipher_suite}")
+	private String ibmWmqSslCipherSuite;
+	@Value("${ibm_wmq_username}")
+	private String ibmWmqUsername;
+	@Value("${ibm_wmq_password}")
+	private String ibmWmqPassword;
+	@Value("${ibm_wmq_incoming_queue_name}")
+	private String ibmWmqIncomingQueueName;
 
 	@Autowired
 	public AuthTransactionListController(CamelContext camelContext, ApplicationContext springContext, AuthTransactionListProcessor authTransactionListProcessor) {
@@ -33,23 +40,28 @@ public class AuthTransactionListController {
 		this.authTransactionListProcessor = authTransactionListProcessor;
 	}
 
-	public void configure(final Properties props) throws Exception {
-		final String hostname = props.getProperty(PROP_HOSTNAME);
-		final String port = props.getProperty(PROP_PORT);
-		final String queueManager = props.getProperty(PROP_QMANAGER);
-		final String channel = props.getProperty(PROP_CHANNEL);
-		final String cipher = props.getProperty(PROP_CIPHER);
-		final String user = props.getProperty(PROP_USER);
-		final String pass = props.getProperty(PROP_PASS);
-		final String queueName = props.getProperty(PROP_QUEUENAME);
-
-		final WmqComponent wmqComponent = WmqComponent.newWmqComponent(hostname, Integer.parseInt(port), queueManager, channel, cipher);
-
-		camelContext.addComponent(COMPONENT_NAME, wmqComponent);
-
-		final AuthTransactionListRouterBuilder authTransactionListRouterBuilder = springContext.getBean(AuthTransactionListRouterBuilder.class, user, pass, queueName, authTransactionListProcessor);
-
-		camelContext.addRoutes(authTransactionListRouterBuilder);
+	public void configure() throws Exception {
+		camelContext.addComponent(COMPONENT_NAME, WmqComponent.newWmqComponent(ibmWmqHost, Integer.parseInt(ibmWmqPort), ibmWmqQueueManager, ibmWmqChannel, ibmWmqSslCipherSuite));
+		camelContext.addRoutes(springContext.getBean(AuthTransactionListRouterBuilder.class, ibmWmqUsername, ibmWmqPassword, ibmWmqIncomingQueueName, authTransactionListProcessor));
 	}
 
+	String getComponentName() {
+		return COMPONENT_NAME;
+	}
+
+	String getQueueName() {
+		return ibmWmqIncomingQueueName;
+	}
+
+	String getUsername() {
+		return ibmWmqUsername;
+	}
+
+	String getPassword() {
+		return ibmWmqPassword;
+	}
+
+	CamelContext getCamelContext() {
+		return camelContext;
+	}
 }
