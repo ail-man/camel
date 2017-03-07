@@ -1,16 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			 xmlns:camel="http://camel.apache.org/schema/spring"
-			 xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+			 xmlns:context="http://www.springframework.org/schema/context"
+			 xmlns:util="http://www.springframework.org/schema/util"
+			 xmlns="http://www.springframework.org/schema/beans"
 			 xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans.xsd
                         http://camel.apache.org/schema/spring
-       					http://camel.apache.org/schema/spring/camel-spring.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       									http://camel.apache.org/schema/spring/camel-spring.xsd
+       									http://www.springframework.org/schema/context
+       									http://www.springframework.org/schema/context/spring-context.xsd
+       									http://www.springframework.org/schema/util
+       					 				http://www.springframework.org/schema/util/spring-util.xsd">
 	<context:annotation-config/>
 	<context:component-scan base-package="com.bpcbt.sv.camel.authtrans"/>
+	<!-- set System properties -->
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject">
+			<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+				<property name="targetClass" value="java.lang.System"/>
+				<property name="targetMethod" value="getProperties"/>
+			</bean>
+		</property>
+		<property name="targetMethod" value="putAll"/>
+		<property name="arguments">
+			<util:properties>
+				<prop key="javax.net.ssl.keyStore">src/test/resources/APP1.jks</prop>
+				<prop key="javax.net.ssl.keyStorePassword">mint</prop>
+				<prop key="javax.net.ssl.trustStore">src/test/resources/APP1.jks</prop>
+				<prop key="javax.net.ssl.trustStorePassword">mint</prop>
+				<prop key="javax.net.debug">all</prop>
+				<prop key="com.ibm.mq.cfg.useIBMCipherMappings">false</prop>
+				<prop key="https.protocols">TLSv1,TLSv1.1,TLSv1.2</prop>
+			</util:properties>
+		</property>
+	</bean>
+	<!-- load properties from camel.properties -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="camel.properties"/>
 	</bean>
+	<!-- config datasource -->
 	<bean id="boDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
 		<property name="url" value="jdbc:oracle:thin:@rescue.bpc.in:1521:svfe_sbf"/>

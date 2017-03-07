@@ -1,5 +1,7 @@
 package com.bpcbt.sv.camel.authtrans;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.wmq.WmqComponent;
@@ -38,7 +40,8 @@ public class AuthTransactionListComponent {
 		this.authTransactionListProcessor = authTransactionListProcessor;
 	}
 
-	public void configure() throws Exception {
+	@PostConstruct
+	public void init() throws Exception {
 		camelContext.addComponent(COMPONENT_NAME, WmqComponent.newWmqComponent(ibmWmqHost, Integer.parseInt(ibmWmqPort), ibmWmqQueueManager, ibmWmqChannel, ibmWmqSslCipherSuite));
 		camelContext.addRoutes(new RouteBuilder() {
 			@Override
