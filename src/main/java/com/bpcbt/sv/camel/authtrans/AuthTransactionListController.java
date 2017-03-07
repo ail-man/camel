@@ -1,10 +1,10 @@
 package com.bpcbt.sv.camel.authtrans;
 
 import org.apache.camel.CamelContext;
+import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.wmq.WmqComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -13,7 +13,6 @@ public class AuthTransactionListController {
 	private static final String COMPONENT_NAME = "wmq";
 
 	private final CamelContext camelContext;
-	private final ApplicationContext springContext;
 	private final AuthTransactionListProcessor authTransactionListProcessor;
 
 	@Value("${ibm_wmq_host}")
@@ -34,15 +33,21 @@ public class AuthTransactionListController {
 	private String ibmWmqIncomingQueueName;
 
 	@Autowired
-	public AuthTransactionListController(CamelContext camelContext, ApplicationContext springContext, AuthTransactionListProcessor authTransactionListProcessor) {
+	public AuthTransactionListController(CamelContext camelContext, AuthTransactionListProcessor authTransactionListProcessor) {
 		this.camelContext = camelContext;
-		this.springContext = springContext;
 		this.authTransactionListProcessor = authTransactionListProcessor;
 	}
 
 	public void configure() throws Exception {
 		camelContext.addComponent(COMPONENT_NAME, WmqComponent.newWmqComponent(ibmWmqHost, Integer.parseInt(ibmWmqPort), ibmWmqQueueManager, ibmWmqChannel, ibmWmqSslCipherSuite));
-		camelContext.addRoutes(springContext.getBean(AuthTransactionListRouterBuilder.class, ibmWmqUsername, ibmWmqPassword, ibmWmqIncomingQueueName, authTransactionListProcessor));
+		camelContext.addRoutes(new RouteBuilder() {
+			@Override
+			public void configure() throws Exception {
+				from(COMPONENT_NAME + ":" + ibmWmqIncomingQueueName + "?username=" + ibmWmqUsername + "&password=" + ibmWmqPassword)
+						.process(authTransactionListProcessor)
+						.dynamicRouter(method(AuthTransactionListDynamicRoute.class, "routeTo"));
+			}
+		});
 	}
 
 	String getComponentName() {
