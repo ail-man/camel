@@ -5,10 +5,10 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.wmq.WmqComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
-@Controller
-public class AuthTransactionListController {
+@Component
+public class AuthTransactionListComponent {
 
 	private static final String COMPONENT_NAME = "wmq";
 
@@ -33,7 +33,7 @@ public class AuthTransactionListController {
 	private String ibmWmqIncomingQueueName;
 
 	@Autowired
-	public AuthTransactionListController(CamelContext camelContext, AuthTransactionListProcessor authTransactionListProcessor) {
+	public AuthTransactionListComponent(CamelContext camelContext, AuthTransactionListProcessor authTransactionListProcessor) {
 		this.camelContext = camelContext;
 		this.authTransactionListProcessor = authTransactionListProcessor;
 	}

@@ -10,10 +10,10 @@ import org.springframework.test.context.ContextConfiguration;
 
 @RunWith(CamelSpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContextTest.xml" })
-public class AuthTransactionListControllerTest {
+public class AuthTransactionListComponentTest {
 
 	@Autowired
-	private AuthTransactionListController controller;
+	private AuthTransactionListComponent component;
 
 	@Before
 	public void setUp() throws Exception {
@@ -26,7 +26,7 @@ public class AuthTransactionListControllerTest {
 		System.setProperty("com.ibm.mq.cfg.useIBMCipherMappings", "false");
 		System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
 
-		controller.configure();
+		component.configure();
 	}
 
 	@Test
@@ -36,10 +36,10 @@ public class AuthTransactionListControllerTest {
 	}
 
 	private void sendTestMessages() {
-		ProducerTemplate template = controller.getCamelContext().createProducerTemplate();
+		ProducerTemplate template = component.getCamelContext().createProducerTemplate();
 		for (int i = 0; i < 10; i++) {
 			template.sendBodyAndHeader(
-					controller.getComponentName() + ":" + controller.getQueueName() + "?username=" + controller.getUsername() + "&password=" + controller.getPassword(),
+					component.getComponentName() + ":" + component.getQueueName() + "?username=" + component.getUsername() + "&password=" + component.getPassword(),
 					"I new test message " + i,
 					"JMS_IBM_MQMD_ApplIdentityData",
 					"anyIdData"
