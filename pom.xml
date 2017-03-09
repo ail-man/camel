@@ -265,6 +265,31 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.8.3</version>
+				<executions>
+					<execution>
+						<id>auth-trans-list-generate</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<schemaDirectory>src/main/resources/authtrans</schemaDirectory>
+							<schemaIncludes>
+								<include>authtrans.xsd</include>
+							</schemaIncludes>
+							<generatePackage>com.bpcbt.sv.camel.authtrans.schema</generatePackage>
+							<generateDirectory>${basedir}/target/generated-sources</generateDirectory>
+							<extension>true</extension>
+							<forceRegenerate>true</forceRegenerate>
+							<removeOldOutput>true</removeOldOutput>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-codegen-plugin</artifactId>
 				<version>${cxf.version}</version>

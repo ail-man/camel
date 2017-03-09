@@ -1,0 +1,4661 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- edited with XMLSpy v2013 sp1 (http://www.altova.com) by ﻿123123 (123123) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:simpleType name="AccountBalance_Type">
+		<xs:annotation>
+			<xs:documentation>Баланс по счету</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="12"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AccountType_Type">
+		<xs:annotation>
+			<xs:documentation>Признак счет/карта - A/C</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="ClosedEnum">
+			<xs:enumeration value="A"/>
+			<xs:enumeration value="C"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="AcctFinTransRevRq" type="AcctFinTransRevRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Отмена финансовой операции по счету</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="AcctFinTransRevRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Отмена финансовой операции по счету</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="AccountNumber">
+						<xs:annotation>
+							<xs:documentation>Номер счета ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="AcctId_Type"/>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AccountCurrency" type="CurCode_Type">
+						<xs:annotation>
+							<xs:documentation>Валюта счета ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RRN" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Уникальный номер транзакции ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="RRN_Type"/>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="CurExp" type="CurExp_Type">
+						<xs:annotation>
+							<xs:documentation>Валютная экспонента ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SourceOpAmount" type="Amt_Type">
+						<xs:annotation>
+							<xs:documentation>Сумма исходной операции ('+' - Credit, '-' - Debit) ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TerminalID">
+						<xs:annotation>
+							<xs:documentation>ID Терминала или рабочего места ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="8"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="MerchantID">
+						<xs:annotation>
+							<xs:documentation>ID торговца ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="15"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AcctFinTransRevRs" type="AcctFinTransRevRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Отмена финансовой операции по счету</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="AcctFinTransRevRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Отмена финансовой операции по счету</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="AccountNumber" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Номер счета ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="AcctId_Type"/>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AccountCurrency" type="CurCode_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Валюта счета ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RRN" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Уникальный номер транзакции ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="RRN_Type"/>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="CurExp" type="CurExp_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Валютная экспонента ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SourceOpAmount" type="Amt_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Сумма выполненной операции в валюте счета ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OpBankNum" type="OpBankNum_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Номер операции в банковской системе ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AccountBalance" type="AccountBalance_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Баланс счета после завершения операции ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AcctFinTransRq" type="AcctFinTransRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Финансовая операция по счету: снятие/пополнение ДС в АБС</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="AcctFinTransRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Финансовая операция по счету: снятие/пополнение ДС в АБС</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="AccountNumber">
+						<xs:annotation>
+							<xs:documentation>Номер счета ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="AcctId_Type"/>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AccountCurrency" type="CurCode_Type">
+						<xs:annotation>
+							<xs:documentation>Валюта счета ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CurExp">
+						<xs:annotation>
+							<xs:documentation>Валютная экспонента ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="CurExp_Type"/>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="OpAmount" type="Amt_Type">
+						<xs:annotation>
+							<xs:documentation>Сумма операции ('+' - Credit, '-' - Debit) ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OpBankNum" type="OpBankNum_Type">
+						<xs:annotation>
+							<xs:documentation>Номер операции в банковской системе ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OpDescription" type="C">
+						<xs:annotation>
+							<xs:documentation>Описание (назначение) платежа/поступления</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OpTypeCode" type="OpTypeCode_Type">
+						<xs:annotation>
+							<xs:documentation>Код типа транзакции ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TerminalID">
+						<xs:annotation>
+							<xs:documentation>ID Терминала или рабочего места ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="8"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="MerchantID">
+						<xs:annotation>
+							<xs:documentation>ID торговца ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="15"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AcctFinTransRs" type="AcctFinTransRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Финансовая операция по счету: снятие/пополнение ДС в АБС</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="AcctFinTransRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Финансовая операция по счету: снятие/пополнение ДС в АБС</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="AccountNumber" type="AcctId_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Номер счета ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AccountCurrency" type="CurCode_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Валюта счета ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CurExp" type="CurExp_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Валютная экспонента ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OpAmount" type="Amt_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Сумма выполненной операции в валюте счета ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RRN" type="RRN_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Уникальный номер транзакции (RRN) ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код авторизации ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="UniqueAuthCodeSV_Type">
+								<xs:pattern value="[0-9a-zA-Z]{1,6}"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="OpBankNum" type="OpBankNum_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Номер операции в банковской системе ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AccountBalance" type="AccountBalance_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Баланс счета после завершения операции ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="AcctId_Type">
+		<xs:annotation>
+			<xs:documentation>Номер счета (карточного, кредитного, депозитного)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="32"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AdditionalStatus_Type">
+		<xs:annotation>
+			<xs:documentation>Дополнительный статус</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StatusCode" type="StatusCode_Type">
+				<xs:annotation>
+					<xs:documentation>Статусный код возврата</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StatusDesc" type="StatusDesc_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Описание статуса</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StatusType" type="StatusType_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Тип ошибки</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ServerStatusDesc" type="ServerStatusType_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Описание статуса системы источника</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Amt_Type">
+		<xs:annotation>
+			<xs:documentation>Сумма</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="AttachedLinkToWeb_Type">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="255"/>
+			<xs:pattern value="[^#\{\},\t\r\n]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AuthCode_Type">
+		<xs:annotation>
+			<xs:documentation>Код авторизации</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="BankInfo_Type">
+		<xs:annotation>
+			<xs:documentation>Реквизиты банков. Тип используется для идентификации банка</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BranchId" type="BranchId_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Код подразделения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RegionId" type="RegionId_Type">
+				<xs:annotation>
+					<xs:documentation>Номер ДБ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Boolean">
+		<xs:annotation>
+			<xs:documentation>Логический тип.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<xs:simpleType name="BranchId_Type">
+		<xs:annotation>
+			<xs:documentation>Номер филиала, в котором открыт или ведется продукт. Без лидирующих нулей. Используется для обозначения кода подразделения ДБ
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="NC">
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="C">
+		<xs:annotation>
+			<xs:documentation>Строковый тип с поддержкой русского языка в кодировке UTF-8.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<!-- <xs:element name="CardAuthTransRevRq" type="CardAuthTransRevRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Отмена авторизации по карте (pre-auth, auth,  fin advice)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CardAuthTransRevRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Отмена авторизации по карте (pre-auth, auth,  fin advice)⌂</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthCurrency" type="CurCode_Type">
+						<xs:annotation>
+							<xs:documentation>Валюта счета ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CurExp" type="CurExp_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Валютная экспонента ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SourceAuthAmount" type="Amt_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Сумма исходной авторизации ('+' - Credit, '-' - Debit) ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код авторизации ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="UniqueAuthCodeSV_Type">
+								<xs:pattern value="[0-9a-zA-Z]{1,6}"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="RRN" type="RRN_Type">
+						<xs:annotation>
+							<xs:documentation>Уникальный номер транзакции (RRN) ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TerminalID">
+						<xs:annotation>
+							<xs:documentation>ID Терминала или рабочего места ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="8"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="MerchantID">
+						<xs:annotation>
+							<xs:documentation>ID торговца ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="15"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения </xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CardAuthTransRevRs" type="CardAuthTransRevRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Отмена авторизации по карте (pre-auth, auth,  fin advice)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CardAuthTransRevRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Отмена авторизации по карте (pre-auth, auth,  fin advice) ⌂</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="CardNumMasked_Type">
+													<xs:pattern value="[0-9a-zA-Z\s]{1,24}"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="CardBalance" type="AccountBalance_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Баланс карты после завершения операции ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код авторизации ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="UniqueAuthCodeSV_Type">
+								<xs:maxLength value="6"/>
+								<xs:pattern value="[0-9a-zA-Z]{1,6}"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="RRN" type="RRN_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Уникальный номер транзакции ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CardAuthTransRq" type="CardAuthTransRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Авторизация по карте (pre-auth, auth, fin advice)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CardAuthTransRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Авторизация по карте (pre-auth, auth, fin advice)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthCurrency" type="CurCode_Type">
+						<xs:annotation>
+							<xs:documentation>Валюта авторизации ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CurExp" type="CurExp_Type">
+						<xs:annotation>
+							<xs:documentation>Валютная экспонента ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthAmount" type="Amt_Type">
+						<xs:annotation>
+							<xs:documentation>Сумма авторизации ('+' - Credit, '-' - Debit) ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TerminalID">
+						<xs:annotation>
+							<xs:documentation>ID Терминала или рабочего места ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="8"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="MerchantID">
+						<xs:annotation>
+							<xs:documentation>ID торговца ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="15"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="OpTypeCode" type="OpTypeCode_Type"/>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CardAuthTransRs" type="CardAuthTransRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Авторизация по карте (pre-auth, auth, fin advice)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CardAuthTransRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Авторизация по карте (pre-auth, auth, fin advice) ⌂</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthCurrency" type="CurCode_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Валюта операции ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CurExp" type="CurExp_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Валютная экспонента ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthAmount" type="Amt_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Сумма операции ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код авторизации ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="UniqueAuthCodeSV_Type">
+								<xs:pattern value="[0-9a-zA-Z]{1,6}"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="RRN" type="RRN_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Уникальный номер транзакции (RRN) ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CardBalance" type="AccountBalance_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Баланс карты после завершения операции ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+-->
+	<xs:simpleType name="CardEndDt_Type">
+		<xs:annotation>
+			<xs:documentation>Срок действия карты ⌂ формат MMYY</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="4"/>
+			<xs:pattern value="\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CardId_Type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="Long">
+			<xs:totalDigits value="12"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CardInfo_Type">
+		<xs:annotation>
+			<xs:documentation>Информация о карте (только id)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CardId" type="CardId_Type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndDt" type="CardEndDt_Type">
+				<xs:annotation>
+					<xs:documentation>Срок действия карты ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+			<xs:element name="CardStatus" type="CardStatusCode_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Новый статус карты</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CardInfoMasked_Type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор карточного счета</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CardId" type="CardId_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndDt" type="CardEndDt_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Срок действия карты ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CardFullNumber" type="CardNum_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер карты полный ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CardNum_Type">
+		<xs:annotation>
+			<xs:documentation>Номер карты.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="NC">
+			<xs:maxLength value="32"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CardNumMasked_Type">
+		<xs:annotation>
+			<xs:documentation>Номер карты маскированный (шаблон ########## первые 6 и последение 4 номера карты)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="C">
+			<xs:length value="10"/>
+			<xs:pattern value="[0-9a-zA-Z\s]{1,10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CardNumMasked4Digits_Type">
+		<xs:annotation>
+			<xs:documentation>Номер карты маскированный (шаблон #### последние 4 цифры номера карты)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="C">
+			<xs:length value="4"/>
+			<xs:pattern value="[0-9]{4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CardServiceInfoList_Type">
+		<xs:annotation>
+			<xs:documentation>Список с информацией по картам и сервисам</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CardServiceInfoBlock" type="CardServiceInfo_Type" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Блок информации по мобильным номерам и сервсам на карте</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CardStatusChanel_Type">
+		<xs:annotation>
+			<xs:documentation>Канал поступления статуса</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="NC">
+			<xs:maxLength value="8"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CardStatusCode_Type">
+		<xs:annotation>
+			<xs:documentation>Статус пластиковой карты.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:totalDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CardStatusPriority_Type">
+		<xs:annotation>
+			<xs:documentation>Приоритет статуса</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="ChangeCardStatusRq" type="ChangeCardStatusRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Запрос на изменение статуса карты (блокировка/разблокировка/удаление)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ChangeCardStatusRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Запрос на изменение статуса карты (блокировка/разблокировка/удаление)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация о карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardStatus" type="CardStatusCode_Type">
+											<xs:annotation>
+												<xs:documentation>Новый статус карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="CardStatusChanel" type="CardStatusChanel_Type">
+						<xs:annotation>
+							<xs:documentation>Канал поступления статуса ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="BlockReason">
+						<xs:annotation>
+							<xs:documentation>Причина блокировки</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="32"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ChangeCardStatusRs">
+		<xs:annotation>
+			<xs:documentation>Ответ: Запрос на изменение статуса карты (блокировка/разблокировка/удаление)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ChangeCardStatusRs_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ChangeCardStatusRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Запрос на изменение статуса карты (блокировка/разблокировка/удаление)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CurrentCardStatus" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Текущий статус карты ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="CardStatusCode_Type"/>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="CardStatusList" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Статусы в разрезе каналов изменения</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="CardStatusEntry" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="CardStatusPriority" type="CardStatusPriority_Type">
+												<xs:annotation>
+													<xs:documentation>Приоритет статуса ⌂</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="CardStatusChanel" type="CardStatusChanel_Type">
+												<xs:annotation>
+													<xs:documentation>Канал поступления статуса ⌂</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="CardStatus">
+												<xs:annotation>
+													<xs:documentation>Статус ⌂</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="CardStatusCode_Type"/>
+												</xs:simpleType>
+											</xs:element>
+											<xs:element name="BlockReason">
+												<xs:annotation>
+													<xs:documentation>Причина блокировки</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:maxLength value="32"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--<xs:element name="CheckTempCardPINPasswordRq">
+		<xs:annotation>
+			<xs:documentation>Запрос: Запрос на проверку одноразового пароля (OTP) для карты</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="CheckTempPasswordRq_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CheckTempCardPINPasswordRs" type="CheckTempPasswordRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Запрос на проверку одноразового пароля (OTP) для карты</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CheckTempPasswordRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Запрос на проверку одноразового пароля (OTP) для карты</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="OTP">
+						<xs:annotation>
+							<xs:documentation>Одноразовый уникальный пароль ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CheckTempPasswordRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Ответа на проверку одноразового пароля (OTP) для карты</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="ReturnCodePasswd" type="xs:int" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Статус уникального пароля ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CardExists" type="xs:int" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Признак существования карты ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>-->
+	<xs:simpleType name="ClientId_Type">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="32"/>
+			<xs:pattern value="[^#/\\\(\)\{\},\t\r\n\s]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ClientSegment_Type">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+			<xs:pattern value="[^#/\\\(\)\{\},\t\r\n]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ClosedEnum">
+		<xs:annotation>
+			<xs:documentation>Закрытое перечисление. Перечисление содержит конечный набор допустимых значений. Другие значения не допустимы. Обнаружении
+				значения, не входящего в набор допустимых значений, трактуется как ошибка в любом узле системы на любом этапе обработки
+				сообщения.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="NC">
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CommonMessageBlock_Type">
+		<xs:sequence>
+			<xs:element name="Id" type="xs:integer"/>
+			<xs:element name="MessageBusinessType" type="MessageBusinessType_Type"/>
+			<xs:element name="ParametersForMessageTemplate" type="ParametersForMessageTemplate_Type" minOccurs="0"/>
+			<xs:element name="ConvenientTimeFrom" type="xs:date" minOccurs="0"/>
+			<xs:element name="ConvenientTimeTo" type="xs:date" minOccurs="0"/>
+			<xs:element name="AttachedLinkToWeb" type="AttachedLinkToWeb_Type" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="CreateCardECommerceServiceRq" type="CreateCardECommerceServiceRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Подключение сервиса e-commerce операций по карте</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CreateCardECommerceServiceRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Подключение сервиса e-commerce операций по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="PhoneInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по мобильному номеру</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="PhoneInfo_Type">
+									<xs:sequence>
+										<xs:element name="MobilePhoneNumber">
+											<xs:annotation>
+												<xs:documentation>Номер мобильного телефона для отправки SMS c OTP (дополнительный пароль для 3DS) ⌂</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="MobilePhoneNumber_Type">
+													<xs:maxLength value="15"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="MobileOperatorId" type="MobileOperator_Type" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>ID оператора мобильной связи ТДК ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщен</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CreateCardECommerceServiceRs" type="CreateCardECommerceServiceRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Подключение сервиса e-commerce операций по карте</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CreateCardECommerceServiceRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Подключение сервиса e-commerce операций по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="ThreeDS" type="ThreeDS_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Текущий статус сервиса 3DS ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CreateCardNotifySubscriptionRq" type="CreateCardNotifySubscriptionRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Подключение подписки на уведомления по карте (Управление СМС-уведомлениями)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CreateCardNotifySubscriptionRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: подключение подписки на уведомления по карте (Управление СМС-уведомлениями)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="MobileInfoList">
+						<xs:annotation>
+							<xs:documentation>Список с информацией по мобильным номерам и мобильным сервисам</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="MobileInfoList_Type">
+									<xs:sequence>
+										<xs:element name="MobileInfo" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Информация по мобильным номерам и мобильным сервисам</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:restriction base="MobileInfo_Type">
+														<xs:sequence>
+															<xs:element name="PhoneInfo" type="PhoneInfo_Type">
+																<xs:annotation>
+																	<xs:documentation>Информация по мобильному номеру</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="MobileServiceIdList" type="MobileServiceIdList_Type" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Список кодов мобильных сервисов ⌂</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:restriction>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="CreateCardNotifySubscriptionRs" type="CreateCardNotifySubscriptionRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Подключение подписки на уведомления по карте (Управление СМС-уведомлениями)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="CreateCardNotifySubscriptionRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: подключение подписки на уведомления по карте (Управление СМС-уведомлениями)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="MobileInfoList" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Список с информацией по мобильным номерам и мобильным сервисам</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="MobileInfoList_Type">
+									<xs:sequence>
+										<xs:element name="MobileInfo" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Информация по мобильным номерам и мобильным сервисам</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:restriction base="MobileInfo_Type">
+														<xs:sequence>
+															<xs:element name="PhoneInfo" type="PhoneInfo_Type">
+																<xs:annotation>
+																	<xs:documentation>Информация по мобильному номеру</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="MobileServiceIdList" type="MobileServiceIdList_Type" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Список кодов мобильных сервисов ⌂</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:restriction>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="CurCode_Type">
+		<xs:annotation>
+			<xs:documentation>Код валюты. ISO-4217.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="NC">
+			<xs:maxLength value="3"/>
+			<xs:pattern value="\d+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CurCodeDig_Type">
+		<xs:annotation>
+			<xs:documentation>Код валюты цифровой.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CurExp_Type">
+		<xs:annotation>
+			<xs:documentation>Валютная экспонента</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:totalDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Date">
+		<xs:annotation>
+			<xs:documentation>Дата</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="DateTime">
+		<xs:annotation>
+			<xs:documentation>Дата и время</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}(:[0-9]{2}(\.[0-9]{6})?((-|\+)[0-9]{2}:[0-9]{2})?)?)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="DeleteCardECommerceServiceRq">
+		<xs:annotation>
+			<xs:documentation>Запрос: Отключение сервиса e-commerce операций по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="DeleteCardECommerceServiceRq_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="DeleteCardECommerceServiceRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Отключение сервиса e-commerce операций по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="PhoneInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по мобильному номеру</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="PhoneInfo_Type">
+									<xs:sequence>
+										<xs:element name="MobilePhoneNumber" type="MobilePhoneNumber_Type" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Номер мобильного телефона для отправки SMS c OTP (дополнительный пароль для 3DS) ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="MobileOperatorId" type="MobileOperator_Type" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>ID оператора мобильной связи ТДК ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщен</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DeleteCardECommerceServiceRs" type="DeleteCardECommerceServiceRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Отключение сервиса e-commerce операций по карте</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="DeleteCardECommerceServiceRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Отключение сервиса e-commerce операций по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="ThreeDS" type="ThreeDS_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Текущий статус сервиса 3DS ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DeleteCardNotifySubscriptionRq">
+		<xs:annotation>
+			<xs:documentation>Запрос: Отключение подписки на уведомления по карте (Отключение СМС-уведомлений)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="DeleteCardNotifySubscriptionRq_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="DeleteCardNotifySubscriptionRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Отключение подписки на уведомления по карте (Отключение СМС-уведомлений)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="PhoneInfo" type="PhoneInfo_Type">
+						<xs:annotation>
+							<xs:documentation>Информация по мобильному номеру</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщен</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DeleteCardNotifySubscriptionRs">
+		<xs:annotation>
+			<xs:documentation>Ответ: Отключение подписки на уведомления по карте (Отключение СМС-уведомлений)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="DeleteCardNotifySubscriptionRs_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="DeleteCardNotifySubscriptionRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Отключение подписки на уведомления по карте (Отключение СМС-уведомлений)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="MobileInfoList" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Список с информацией по мобильным номерам и мобильным сервисам</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="MobileInfoList_Type">
+									<xs:sequence>
+										<xs:element name="MobileInfo" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Информация по мобильным номерам и мобильным сервисам</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:restriction base="MobileInfo_Type">
+														<xs:sequence>
+															<xs:element name="PhoneInfo" type="PhoneInfo_Type">
+																<xs:annotation>
+																	<xs:documentation>Информация по мобильному номеру</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="MobileServiceIdList" type="MobileServiceIdList_Type" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Список кодов мобильных сервисов ⌂</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:restriction>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="EmailMessageBlock_Type">
+		<xs:complexContent>
+			<xs:extension base="CommonMessageBlock_Type"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="EmailMessageBlockMin_Type">
+		<xs:sequence>
+			<xs:element name="Id" type="xs:int"/>
+			<xs:element name="MessageId" type="MessageId_Type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EmailMessageList_Type">
+		<xs:sequence>
+			<xs:element name="EmailMessageBlock" type="EmailMessageBlock_Type" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EmailMessageListMin_Type">
+		<xs:sequence>
+			<xs:element name="EmailMessageBlock" type="EmailMessageBlockMin_Type" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--	<xs:element name="GenerateTempCardPINPasswordRq">
+		<xs:annotation>
+			<xs:documentation>Запрос: Запрос статуса PINа карты</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SrvGenerateTempCardPINPasswordRq_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GenerateTempCardPINPasswordRs" type="SrvGenerateTempCardPINPasswordRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Запрос статуса PINа карты</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+-->
+	<xs:element name="GetAuthTransactionListRq">
+		<xs:annotation>
+			<xs:documentation>Запрос: Получение списка активных авторизаций по карте (список блокированных средств по карте)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="GetAuthTransactionListRq_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="GetAuthTransactionListRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Получение списка активных авторизаций по карте (список блокированных средств по карте)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщен</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetAuthTransactionListRs">
+		<xs:annotation>
+			<xs:documentation>Ответ: Получение списка активных авторизаций по карте (список блокированных средств по карте)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="GetAuthTransactionListRs_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="GetAuthTransactionListRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Получение списка активных авторизаций по карте (список блокированных средств по карте)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="OperationInfoList" type="OperationInfoList_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Список с информацией по операциям</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetCardECommerceServiceRq">
+		<xs:annotation>
+			<xs:documentation>Запрос: Запрос статуса сервиса по осуществлению e-commerce операций по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="GetCardECommerceServiceRq_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="GetCardECommerceServiceRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Запрос статуса сервиса по осуществлению e-commerce платежей по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщен</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetCardECommerceServiceRs">
+		<xs:annotation>
+			<xs:documentation>Ответ: Запрос статуса сервиса по осуществлению e-commerce платежей по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="GetCardECommerceServiceRs_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="GetCardECommerceServiceRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Запрос статуса сервиса по осуществлению e-commerce платежей по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="PhoneInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по мобильному номеру</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="PhoneInfo_Type">
+									<xs:sequence>
+										<xs:element name="MobilePhoneNumber" type="MobilePhoneNumber_Type" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Номер мобильного телефона для отправки SMS c OTP (дополнительный пароль для 3DS) ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="MobileOperatorId" type="MobileOperator_Type" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>ID оператора мобильной связи ТДК ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="ThreeDS" type="ThreeDS_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Текущий статус сервиса 3DS ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetCardNotifySubscriptionRq">
+		<xs:annotation>
+			<xs:documentation>Запрос: Получение списка подписок на уведомления по карте (действующие СМС-уведомления)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="GetCardNotifySubscriptionRq_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="GetCardNotifySubscriptionRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Получение списка подписок на уведомления по карте (действующие СМС-уведомления)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщен</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetCardNotifySubscriptionRs">
+		<xs:annotation>
+			<xs:documentation>Ответ: Получение списка подписок на уведомления по карте (действующие СМС-уведомления)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="GetCardNotifySubscriptionRs_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="GetCardNotifySubscriptionRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Получение списка подписок на уведомления по карте (действующие СМС-уведомления)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="MobileInfoList" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Список с информацией по мобильным номерам и мобильным сервисам</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="MobileInfoList_Type">
+									<xs:sequence>
+										<xs:element name="MobileInfo" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Информация по мобильным номерам и мобильным сервисам</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:restriction base="MobileInfo_Type">
+														<xs:sequence>
+															<xs:element name="PhoneInfo" type="PhoneInfo_Type">
+																<xs:annotation>
+																	<xs:documentation>Информация по мобильному номеру</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="MobileServiceIdList" type="MobileServiceIdList_Type" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Список кодов мобильных сервисов ⌂</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:restriction>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--<xs:element name="GetCardPINStatusRq">
+		<xs:annotation>
+			<xs:documentation>Запрос: Запрос статуса PINа карты</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="GetCardPINStatusRq_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="GetCardPINStatusRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Финансовая операция по счету: снятие/пополнение ДС в АБС</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetCardPINStatusRs" type="GetCardPINStatusRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Запрос статуса PINа карты</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="GetCardPINStatusRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Финансовая операция по счету: снятие/пополнение ДС в АБС</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="SetDateTime" type="DateTime" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Дата и время установки PIN ⌂ </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ReturnCodePIN" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код статуса установки PIN ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:int">
+								<xs:totalDigits value="2"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ErrorMsgPIN" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Сообщение о статусе установки PIN ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="32"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ReturnCodePasswd" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Статус одноразового уникального пароля ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:int">
+								<xs:totalDigits value="2"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ErrorMsgPasswd" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Сообщение о статусе одноразового уникального пароля ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="32"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>-->
+	<xs:element name="GetCardRegionRestrictionsRq">
+		<xs:annotation>
+			<xs:documentation>Запрос: Запрос перечня ограничений по использованию карты в регионах</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="GetCardRegionRestrictionsRq_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="GetCardRegionRestrictionsRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Запрос перечня ограничений по использованию карты в регионах</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetCardRegionRestrictionsRs" type="GetCardRegionRestrictionsRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Запрос перечня ограничений по использованию карты в регионах</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="GetCardRegionRestrictionsRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Запрос перечня ограничений по использованию карты в регионах</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="RegionList" type="RegionList_Type" minOccurs="0"/>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetCardRestrictionsRq" type="GetCardRestrictionsRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Запрос лимитов по карте</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="GetCardRestrictionsRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Запрос Лимита по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetCardRestrictionsRs" type="GetCardRestrictionsRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Запрос лимитов по карте</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="GetCardRestrictionsRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Запрос Лимита по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="LimitList" type="LimitList_Type" minOccurs="0"/>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetCardStatusRq">
+		<xs:annotation>
+			<xs:documentation>Запрос: Запрос статуса карты</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="GetCardStatusRq_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="GetCardStatusRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Запрос статуса карты</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetCardStatusRs" type="GetCardStatusRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Запрос статуса карты</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="GetCardStatusRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Запрос статуса карты</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CurrentCardStatus" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Текущий статус карты ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="CardStatusCode_Type"/>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="CardStatusList" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Статусы в разрезе каналов изменения</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="CardStatusEntry" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="CardStatusPriority" type="CardStatusPriority_Type">
+												<xs:annotation>
+													<xs:documentation>Приоритет статуса ⌂</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="CardStatusChanel" type="CardStatusChanel_Type">
+												<xs:annotation>
+													<xs:documentation>Канал поступления статуса ⌂</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="CardStatus">
+												<xs:annotation>
+													<xs:documentation>Статус ⌂</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="CardStatusCode_Type"/>
+												</xs:simpleType>
+											</xs:element>
+											<xs:element name="BlockReason">
+												<xs:annotation>
+													<xs:documentation>Причина блокировки</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:maxLength value="32"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetPhoneServicesListRq" type="GetPhoneServicesListRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Предоставление списка активных сервисов (СМС, 3DS), подключенных на телефон</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="GetPhoneServicesListRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Предоставление списка активных сервисов (СМС, 3DS), подключенных на телефон</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="PhoneInfo" type="PhoneInfo_Type"/>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetPhoneServicesListRs" type="GetPhoneServicesListRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Предоставление списка активных сервисов (СМС, 3DS), подключенных на телефон</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="GetPhoneServicesListRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Предоставление списка активных сервисов (СМС, 3DS), подключенных на телефон</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardServiceInfoList" type="CardServiceInfoList_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Список с информацией по мобильным номерам и мобильным сервисам</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetVirtCardParmsRq" type="GetVirtCardParmsRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Запрос реквизитов виртуальной карты (полный PAN, CVC2)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="GetVirtCardParmsRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Запрос реквизитов виртуальной карты (полный PAN, CVC2)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="PhoneInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по мобильному номеру</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="PhoneInfo_Type">
+									<xs:sequence>
+										<xs:element name="MobilePhoneNumber">
+											<xs:annotation>
+												<xs:documentation>Номер мобильного телефона для отправки SMS c OTP (дополнительный пароль для 3DS) ⌂</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="MobilePhoneNumber_Type">
+													<xs:maxLength value="15"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="MobileOperatorId" type="MobileOperator_Type" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>ID оператора мобильной связи ТДК ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="GetVirtCardParmsRs" type="GetVirtCardParmsRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Запрос реквизитов виртуальной карты (полный PAN, CVC2)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="GetVirtCardParmsRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Запрос реквизитов виртуальной карты (полный PAN, CVC2)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" type="CardInfoMasked_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="InqAcctBalanceRq" type="InqAcctBalanceRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Запрос баланса, овердрафта, доступного остатка счета</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="InqAcctBalanceRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Запрос баланса, овердрафта, доступного остатка счета</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="AccountType">
+						<xs:annotation>
+							<xs:documentation>Признак счет/карта - A/C</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="AccountType_Type">
+								<xs:maxLength value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AccountNumber" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Номер счета ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="AcctId_Type"/>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="InqAcctBalanceRs" type="InqAcctBalanceRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Запрос баланса, овердрафта, доступного остатка счета</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="InqAcctBalanceRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Запрос баланса, овердрафта, доступного остатка счета</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="AccountInfoList" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по счетам</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="AccountInfoEntry" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="AccountNumber" type="AcctId_Type">
+												<xs:annotation>
+													<xs:documentation>Номер счета ⌂</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="AccountCurrency" type="CurCode_Type">
+												<xs:annotation>
+													<xs:documentation>Валюта счета ⌂</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="CurExp" type="CurExp_Type">
+												<xs:annotation>
+													<xs:documentation>Валютная экспонента ⌂</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="AccountBalance" type="AccountBalance_Type">
+												<xs:annotation>
+													<xs:documentation>Баланс по счету ⌂</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="AccountOverdraft" type="AccountBalance_Type">
+												<xs:annotation>
+													<xs:documentation>Овердрафт по счету ⌂</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="AccountMinBalance" type="AccountBalance_Type">
+												<xs:annotation>
+													<xs:documentation>Неснижаемый остаток по счету ⌂</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Limit_Type">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LimitType">
+				<xs:annotation>
+					<xs:documentation>Тип лимита (ID) ⌂</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="8"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LimitValue" type="Amt_Type">
+				<xs:annotation>
+					<xs:documentation>Пороговое значение лимита ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LimitCurrency" type="CurCode_Type">
+				<xs:annotation>
+					<xs:documentation>Валюта лимита ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CycleLengh">
+				<xs:annotation>
+					<xs:documentation>Длина цикла ⌂</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:totalDigits value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CycleType">
+				<xs:annotation>
+					<xs:documentation>Тип цикла ⌂</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:totalDigits value="2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="StartDate" type="DateTime">
+				<xs:annotation>
+					<xs:documentation>Дата активации лимита ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndDate" type="DateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата окончания действия лимита ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LimitList_Type">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LimitBlock" type="Limit_Type" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Long">
+		<xs:annotation>
+			<xs:documentation>Длинное число.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:long"/>
+	</xs:simpleType>
+	<xs:simpleType name="MessageBusinessType_Type">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+			<xs:pattern value="[^#/\\\(\)\{\},\t\r\n]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MessageId_Type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор сообщения</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="NC">
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="MobileInfo_Type">
+		<xs:annotation>
+			<xs:documentation>Информация по мобильным номерам и мобильным сервисам</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PhoneInfo" type="PhoneInfo_Type">
+				<xs:annotation>
+					<xs:documentation>Информация по мобильному номеру</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MobileServiceIdList" type="MobileServiceIdList_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Список кодов мобильных сервисов ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ThreeDS" type="ThreeDS_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Текущий статус сервиса 3DS ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MobileInfoList_Type">
+		<xs:annotation>
+			<xs:documentation>Список с информацией по мобильным номерам и мобильным сервисам</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MobileInfo" type="MobileInfo_Type" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Информация по мобильным номерам и мобильным сервисам</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="MobileOperator_Type">
+		<xs:annotation>
+			<xs:documentation>ID оператора мобильной связи ТДК ⌂</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="12"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MobilePhoneNumber_Type">
+		<xs:annotation>
+			<xs:documentation>Номер мобильного телефона держателя карты ⌂</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="C"/>
+	</xs:simpleType>
+	<xs:simpleType name="MobileServiceId_Type">
+		<xs:annotation>
+			<xs:documentation>Мобильный сервис (Код типа SMS)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{1,9}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="MobileServiceIdList_Type">
+		<xs:annotation>
+			<xs:documentation>Список кодов мобильных сервисов ⌂</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MobileServiceId" type="MobileServiceId_Type" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Мобильный сервис (Код типа SMS)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="NC">
+		<xs:annotation>
+			<xs:documentation>Строковый тип в кодировке ISO Latin-1.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="OpAmount_Type">
+		<xs:annotation>
+			<xs:documentation>Сумма в валюте операции</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:totalDigits value="12"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OpBankNum_Type">
+		<xs:annotation>
+			<xs:documentation>Номер операции в банковской системе</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="NC">
+			<xs:pattern value="\d{1,36}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OpCity_Type">
+		<xs:annotation>
+			<xs:documentation>Город проведения операции</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OpCurrency_Type">
+		<xs:annotation>
+			<xs:documentation>Валюта операции</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="OpDt_Type">
+		<xs:annotation>
+			<xs:documentation>Дата и время операции</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="DateTime"/>
+	</xs:simpleType>
+	<xs:complexType name="OperationInfo_Type">
+		<xs:annotation>
+			<xs:documentation>Информация по операции</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AuthCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Код авторизации ⌂</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="AuthCode_Type">
+						<xs:maxLength value="6"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OpAmount" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Сумма в валюте операции ⌂</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="OpAmount_Type"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OpBankNum" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер операции в банковской системе ⌂</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="OpBankNum_Type">
+						<xs:length value="36"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OpCurrency" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Валюта операции ⌂</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="OpCurrency_Type">
+						<xs:length value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OpDt" type="OpDt_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата и время операции ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OpMerchantId" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ID торговца</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="OpMerchantId_Type"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OpCity" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Город проведения операции</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="OpCity_Type">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OpPlaceOfTransaction" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Место проведения операции</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="OpPlaceOfTransaction_Type">
+						<xs:maxLength value="128"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="OpTypeCode" type="OpTypeCode_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Код типа операции ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OpTerminalId" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ID терминала</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="OpTerminalId_Type"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CurExp" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Валютная экспонента ⌂</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="CurExp_Type"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="RRN" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Уникальный номер транзакции ⌂</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="RRN_Type"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TrDt" type="TrDt_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата проведения транзакции ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TrTm" type="TrTm_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Время проведение транзакции ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TrDtTm" type="DateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Время проведения транзакции (прямая или отмена) в SVFE ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OperationInfoList_Type">
+		<xs:annotation>
+			<xs:documentation>Список с информацией по операциям</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OperationInfo" type="OperationInfo_Type" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Информация по операции</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="OperUID_Type">
+		<xs:annotation>
+			<xs:documentation>Уникальный идентификатор операции</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="C">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="32"/>
+			<xs:pattern value="[0-9a-zA-Z]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OpMerchantId_Type">
+		<xs:annotation>
+			<xs:documentation>ID торговца</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="15"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OpPlaceOfTransaction_Type">
+		<xs:annotation>
+			<xs:documentation>Место проведения операции</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="OpTerminalId_Type">
+		<xs:annotation>
+			<xs:documentation>ID терминала</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="16"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OpTypeCode_Type">
+		<xs:annotation>
+			<xs:documentation>Код типа операции</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="NC">
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ParametersForMessageTemplate_Type">
+		<xs:annotation>
+			<xs:documentation>Тип операции в рамках устанавливаемой сессии (например, загрузка подготовленного профиля карты GetHCECardProfile)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="NC"/>
+	</xs:simpleType>
+	<xs:complexType name="PhoneInfo_Type">
+		<xs:annotation>
+			<xs:documentation>Информация по мобильному номеру</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MobilePhoneNumber" type="MobilePhoneNumber_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер мобильного телефона держателя карты ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MobileOperatorId" type="MobileOperator_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ID оператора мобильной связи ТДК ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PushMessageBlock_Type">
+		<xs:complexContent>
+			<xs:extension base="CommonMessageBlock_Type"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PushMessageBlockMin_Type">
+		<xs:sequence>
+			<xs:element name="Id" type="xs:int"/>
+			<xs:element name="MessageId" type="MessageId_Type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PushMessageList_Type">
+		<xs:sequence>
+			<xs:element name="PushMessageBlock" type="PushMessageBlock_Type" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PushMessageListMin_Type">
+		<xs:sequence>
+			<xs:element name="PushMessageBlock" type="PushMessageBlockMin_Type" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--<xs:element name="PutCardPINRq">
+		<xs:annotation>
+			<xs:documentation>Запрос: Запрос на установку PIN для карты</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SetPinIVRRq_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>-->
+	<!--<xs:element name="PutCardPINRs" type="SetPinIVRRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Запрос на установку PIN для карты</xs:documentation>
+		</xs:annotation>
+	</xs:element>-->
+	<xs:element name="PutCardRegionRestrictionsRq" type="PutCardRegionRestrictionsRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Установка/снятие ограничений по использованию карты в регионе</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="PutCardRegionRestrictionsRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Установка/снятие ограничений по использованию карты в регионе</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Region" type="RegionInfo_Type" maxOccurs="unbounded"/>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="PutCardRegionRestrictionsRs" type="PutCardRegionRestrictionsRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Установка/снятие ограничений по использованию карты в регионе</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="PutCardRegionRestrictionsRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Установка/снятие ограничений по использованию карты в регионе</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="RegionId_Type">
+		<xs:annotation>
+			<xs:documentation>Код региона банка. Используется для обозначения кода ДБ</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="NC">
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="RegionInfo_Type">
+		<xs:annotation>
+			<xs:documentation>Информация о регионе</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RegionId">
+				<xs:annotation>
+					<xs:documentation>ID региона ⌂</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="8"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="IsProhibitedFlag" type="Boolean">
+				<xs:annotation>
+					<xs:documentation>Признак использования карты в регионе (разрешено/запрещено) ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RegionList_Type">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Region" type="RegionInfo_Type" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="ResetCardPINCounterRq" type="ResetCardPINCounterRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Сброс счетчика неверно введенных пин-кодов</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ResetCardPINCounterRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Сброс счетчика неверно введенных пин-кодов</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ResetCardPINCounterRs" type="ResetCardPINCounterRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Сброс счетчика неверно введенных пин-кодов</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="ResetCardPINCounterRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Сброс счетчика неверно введенных пин-кодов</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RqHeader_Type">
+		<xs:annotation>
+			<xs:documentation>Заголовок запроса</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RqUID" type="RqUID_Type">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор запроса</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RqTm" type="DateTime">
+				<xs:annotation>
+					<xs:documentation>Дата и время передачи сообщения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OperUID">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор операции ⌂</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="OperUID_Type">
+						<xs:pattern value="[0-9a-zA-Z]*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SPName" type="SPName_Type">
+				<xs:annotation>
+					<xs:documentation>Идентификатор системы, инициирующей запрос</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SystemId" type="SPName_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификатор системы назначения запроса</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BankInfo" type="BankInfo_Type">
+				<xs:annotation>
+					<xs:documentation>Информация о банке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="RqUID_Type">
+		<xs:annotation>
+			<xs:documentation>
+				Идентификатор запроса.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="UUID_Type">
+			<xs:pattern value="[0-9a-zA-Z]{32}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RRN_Type">
+		<xs:annotation>
+			<xs:documentation>Уникальный номер транзакции</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="NC">
+			<xs:maxLength value="12"/>
+			<xs:pattern value="[0-9a-zA-Z]{1,12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="RsHeader_Type">
+		<xs:annotation>
+			<xs:documentation>Заголовочная часть запроса</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RqUID" type="RqUID_Type">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор запроса</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RqTm" type="DateTime">
+				<xs:annotation>
+					<xs:documentation>Дата и время передачи сообщения ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OperUID">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор операции ⌂</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="OperUID_Type">
+						<xs:pattern value="[0-9a-zA-Z]*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SPName" type="SPName_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификатор системы, инициирующей запрос</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SystemId" type="SPName_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификатор системы назначения запроса</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Status" type="Status_Type">
+				<xs:annotation>
+					<xs:documentation>Статусное сообщение (результат выполнения операции)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BankInfo" type="BankInfo_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Информация о банке</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="SendCardNotificationRq" type="SendCardNotificationRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: СМС-уведомления по карте</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="SendCardNotificationRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: СМС-уведомления по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="SMSInfo" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Информация для отправки СМС</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="SMSInfo_Type">
+									<xs:sequence>
+										<xs:element name="SMSMessageId">
+											<xs:annotation>
+												<xs:documentation>Идентификатор СМС сообщения ⌂</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="SMSMessageId_Type">
+													<xs:length value="12"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="MobilePhoneNumber">
+											<xs:annotation>
+												<xs:documentation>Номер мобильного телефона держателя карты ⌂ ⌂</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="MobilePhoneNumber_Type">
+													<xs:maxLength value="15"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="MobileOperatorId" type="MobileOperator_Type" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>ID оператора мобильной связи ТДК ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="SMSPriority" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Приоритет отправки СМС ⌂</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="SMSPriority_Type">
+													<xs:length value="1"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="SMSText">
+											<xs:annotation>
+												<xs:documentation>Текст сообщения ⌂</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="SMSText_Type">
+													<xs:maxLength value="255"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщен</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SendCardNotificationRs">
+		<xs:annotation>
+			<xs:documentation>Ответ: СМС-уведомления по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SendCardNotificationRs_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="SendCardNotificationRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: СМС-уведомления по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="SMSInfo" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Информация для отправки СМС</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="SMSInfo_Type">
+									<xs:sequence>
+										<xs:element name="SMSMessageId" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Идентификатор СМС сообщения ⌂</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="SMSMessageId_Type">
+													<xs:length value="12"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="SMSStatus" type="AdditionalStatus_Type">
+											<xs:annotation>
+												<xs:documentation>Статус СМС сообщения ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщен</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--<xs:element name="SendClientNotificationRq" type="SendClientNotificationRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: СМС-уведомления по карте</xs:documentation>
+		</xs:annotation>
+	</xs:element>-->
+	<!--<xs:complexType name="SendClientNotificationRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: СМС-уведомления по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="Version" type="Version_Type" minOccurs="0"/>
+					<xs:element name="CoreClientId" type="ClientId_Type" minOccurs="0"/>
+					<xs:element name="ClientSegment" type="ClientSegment_Type" minOccurs="0"/>
+					<xs:element name="EmailMessageList" type="EmailMessageList_Type" minOccurs="0"/>
+					<xs:element name="Status" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="SMSMessageList" type="SMSMessageList_Type" minOccurs="0"/>
+					<xs:element name="PushMessageList" type="PushMessageList_Type" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SendClientNotificationRs" type="SendClientNotificationRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: СМС-уведомления по карте</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="SendClientNotificationRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: СМС-уведомления по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="EmailMessageList" type="EmailMessageListMin_Type" minOccurs="0"/>
+					<xs:element name="SMSMessageList" type="SMSMessageListMin_Type" minOccurs="0"/>
+					<xs:element name="PushMessageList" type="PushMessageListMin_Type" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>-->
+	<xs:simpleType name="ServerStatusType_Type">
+		<xs:annotation>
+			<xs:documentation>Исходное описание ошибки из внешней системы (заполняется только при значении StatusCode, отличном от 0)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="C">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--<xs:complexType name="SetPinIVRRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Запрос на установку PIN для карты</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardNumMasked4Digits" type="CardNumMasked4Digits_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>4 последних цифры номера карты ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OTP">
+						<xs:annotation>
+							<xs:documentation>Одноразовый уникальный пароль ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="PINBlock">
+						<xs:annotation>
+							<xs:documentation>ПИН-блок ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:byte">
+								<xs:totalDigits value="8"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="PINBlockFormat">
+						<xs:annotation>
+							<xs:documentation>Формат пин блока ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:byte">
+								<xs:totalDigits value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="PEKPCV">
+						<xs:annotation>
+							<xs:documentation>Контрольное значение ключа ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:byte">
+								<xs:totalDigits value="6"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="SecutityType">
+						<xs:annotation>
+							<xs:documentation>Тип модуля безопасности ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:byte">
+								<xs:totalDigits value="1"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>-->
+	<!--<xs:complexType name="SetPinIVRRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Запрос на установку PIN для карты</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="SetDateTime" type="DateTime">
+						<xs:annotation>
+							<xs:documentation>Дата и время установки PIN ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ReturnCodePIN" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>Код статуса установки PIN ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ErrorMsgPIN">
+						<xs:annotation>
+							<xs:documentation>Сообщение о статусе установки PIN ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="32"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>-->
+	<xs:complexType name="SMSInfo_Type">
+		<xs:annotation>
+			<xs:documentation>Информация по отпарвляемым СМС</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SMSMessageId" type="SMSMessageId_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Идентификатор СМС сообщения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MobilePhoneNumber" type="MobilePhoneNumber_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Номер мобильного телефона держателя карты ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MobileOperatorId" type="MobileOperator_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ID оператора мобильной связи ТДК ⌂</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SMSPriority" type="SMSPriority_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Приоритет отправки СМС</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SMSText" type="SMSText_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Текст сообщения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SMSStatus" type="AdditionalStatus_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Статус СМС сообщения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SMSMessageBlock_Type">
+		<xs:complexContent>
+			<xs:extension base="CommonMessageBlock_Type"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SMSMessageBlockMin_Type">
+		<xs:sequence>
+			<xs:element name="Id" type="xs:int"/>
+			<xs:element name="MessageId" type="MessageId_Type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SMSMessageId_Type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор SMS сообщения</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="SMSMessageList_Type">
+		<xs:sequence>
+			<xs:element name="SMSMessageBlock" type="SMSMessageBlock_Type" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SMSMessageListMin_Type">
+		<xs:sequence>
+			<xs:element name="SMSMessageBlock" type="SMSMessageBlockMin_Type" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SMSPriority_Type">
+		<xs:annotation>
+			<xs:documentation>Приоритет отправки СМС</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="SMSText_Type">
+		<xs:annotation>
+			<xs:documentation>Текст сообщения</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="SPName_Type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор системы</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="C">
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- <xs:complexType name="SrvGenerateTempCardPINPasswordRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Финансовая операция по счету: снятие/пополнение ДС в АБС</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="PhoneInfo" type="PhoneInfo_Type"/>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SrvGenerateTempCardPINPasswordRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Финансовая операция по счету: снятие/пополнение ДС в АБС</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="SetDateTime" type="DateTime" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Статус одноразового уникального пароля ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ReturnCodePasswd" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Статус одноразового уникального пароля ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:int">
+								<xs:totalDigits value="2"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ErrorMsgPasswd" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Сообщение о статусе одноразового уникального пароля ⌂</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="32"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+-->
+	<!--	<xs:element name="SrvGetCardPINStatusRq">
+		<xs:annotation>
+			<xs:documentation>Запрос: Запрос статуса PINа карты</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="GetCardPINStatusRq_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SrvGetCardPINStatusRs" type="GetCardPINStatusRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Запрос статуса PINа карты</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+-->
+	<xs:complexType name="Status_Type">
+		<xs:annotation>
+			<xs:documentation>Статус ответа</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StatusCode" type="StatusCode_Type">
+				<xs:annotation>
+					<xs:documentation>Статусный код возврата</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StatusDesc" type="StatusDesc_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Описание статуса</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StatusType" type="StatusType_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Тип ошибки</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ServerStatusDesc" type="ServerStatusType_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Описание статуса системы источника</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdditionalStatus" type="AdditionalStatus_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дополнительный статус. Этот агрегат может содержать дополнительные статусы, которые может сообщить сервер. Например, и
+						номер счета, и дата неправильны, то StatusCode может содержать одну из этих ошибок, а этот агрегат – другую.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="StatusCode_Type">
+		<xs:annotation>
+			<xs:documentation>
+				Статусный код возврата.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="Long"/>
+	</xs:simpleType>
+	<xs:simpleType name="StatusDesc_Type">
+		<xs:annotation>
+			<xs:documentation>
+				Описание статуса.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="C">
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StatusType_Type">
+		<xs:annotation>
+			<xs:documentation>Описание ответа - тип ошибки (заполняется только при значении StatusCode, отличном от 0)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="C">
+			<xs:maxLength value="22"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ThreeDS_Type">
+		<xs:annotation>
+			<xs:documentation>Статус сервиса 3DS</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<xs:simpleType name="TrDt_Type">
+		<xs:annotation>
+			<xs:documentation>Дата проведения транзакции</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="Date"/>
+	</xs:simpleType>
+	<xs:simpleType name="TrTm_Type">
+		<xs:annotation>
+			<xs:documentation>Время проведения транзакции</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:time"/>
+	</xs:simpleType>
+	<xs:simpleType name="UniqueAuthCodeSV_Type">
+		<xs:annotation>
+			<xs:documentation>Уникальный код авторизации в SV</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="NC">
+			<xs:pattern value="[0-9a-zA-Z]{1,13}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="UpdateCardNotifySubscriptionRq">
+		<xs:annotation>
+			<xs:documentation>Запрос: Изменение подписки на уведомления по карте (модификация СМС-уведомлений)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="UpdateCardNotifySubscriptionRq_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="UpdateCardNotifySubscriptionRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Изменение подписки на уведомления по карте (модификация СМС-уведомлений)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="PhoneInfo" type="PhoneInfo_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по мобильному номеру</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="NewPhoneInfo" type="PhoneInfo_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по мобильному номеру</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MobileServiceIdList" type="MobileServiceIdList_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Список кодов мобильных сервисов ⌂</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщен</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdateCardNotifySubscriptionRs">
+		<xs:annotation>
+			<xs:documentation>Ответ: Изменение подписки на уведомления по карте (модификация СМС-уведомлений)</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="UpdateCardNotifySubscriptionRs_Type"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="UpdateCardNotifySubscriptionRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Изменение подписки на уведомления по карте (модификация СМС-уведомлений)</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="MobileInfoList" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Список с информацией по мобильным номерам и мобильным сервисам</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="MobileInfoList_Type">
+									<xs:sequence>
+										<xs:element name="MobileInfo" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Информация по мобильным номерам и мобильным сервисам</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:restriction base="MobileInfo_Type">
+														<xs:sequence>
+															<xs:element name="PhoneInfo" type="PhoneInfo_Type">
+																<xs:annotation>
+																	<xs:documentation>Информация по мобильному номеру</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="MobileServiceIdList" type="MobileServiceIdList_Type" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Список кодов мобильных сервисов ⌂</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:restriction>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdateCardRestrictionsRq" type="UpdateCardRestrictionsRq_Type">
+		<xs:annotation>
+			<xs:documentation>Запрос: Установка лимитов по карте</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="UpdateCardRestrictionsRq_Type">
+		<xs:annotation>
+			<xs:documentation>Тип запроса: Установка/изменение лимитов по карте</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RqHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="LimitList" type="LimitList_Type"/>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Код аутентичности сообщения</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="UpdateCardRestrictionsRs" type="UpdateCardRestrictionsRs_Type">
+		<xs:annotation>
+			<xs:documentation>Ответ: Установка лимитов по карте</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="UpdateCardRestrictionsRs_Type">
+		<xs:annotation>
+			<xs:documentation>Тип ответа: Финансовая операция по счету: снятие/пополнение ДС в АБС</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="RsHeader_Type">
+				<xs:sequence>
+					<xs:element name="CardInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Информация по карте</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:complexContent>
+								<xs:restriction base="CardInfo_Type">
+									<xs:sequence>
+										<xs:element name="CardId" type="CardId_Type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="EndDt" type="CardEndDt_Type">
+											<xs:annotation>
+												<xs:documentation>Срок действия карты ⌂</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:restriction>
+							</xs:complexContent>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="LimitList" type="LimitList_Type" minOccurs="0"/>
+					<xs:element name="AuthenticityCode" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="16"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="UUID_Type">
+		<xs:annotation>
+			<xs:documentation>Уникальный 16 байтовый идентификатор. Для обмена в рамках интеграционных проектов Сбербанка представляется набором из 32 символов
+				без разделителей в шестнадцатиричной системе./
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="NC">
+			<xs:pattern value="([0-9]|[a-f]|[A-F]){32}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Version_Type">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="4"/>
+			<xs:pattern value="[^#/\\\(\)\{\},\t\r\n]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CardServiceInfo_Type">
+		<xs:sequence>
+			<xs:element name="MobileInfo" type="MobileInfo_Type">
+				<xs:annotation>
+					<xs:documentation>Информация по мобильным номерам и мобильным сервисам</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CardInfo">
+				<xs:annotation>
+					<xs:documentation>Информация по карте</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:restriction base="CardInfo_Type">
+							<xs:sequence>
+								<xs:element name="CardId" type="CardId_Type">
+									<xs:annotation>
+										<xs:documentation>Идентификатор карты ⌂</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="EndDt" type="CardEndDt_Type">
+									<xs:annotation>
+										<xs:documentation>Срок действия карты ⌂</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="CardNumMasked" type="CardNumMasked_Type" minOccurs="0"/>
+							</xs:sequence>
+						</xs:restriction>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
