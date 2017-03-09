@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.camel.Exchange;
@@ -19,6 +20,7 @@ public class AuthTransactionListProcessor implements Processor {
 
 	private static final Logger logger = LogManager.getLogger(AuthTransactionListProcessor.class);
 
+	@Resource(name = "boDataSource")
 	private final DataSource boDataSource;
 
 	@Autowired
@@ -39,7 +41,7 @@ public class AuthTransactionListProcessor implements Processor {
 	private String getSomeDataFromDb() {
 		String result = "";
 
-		String query = "select * from T_REPORT_TEMPLATE";
+		String query = "select * from ACC_ACCOUNT";
 
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -49,7 +51,7 @@ public class AuthTransactionListProcessor implements Processor {
 			stmt = conn.prepareStatement(query);
 			rs = stmt.executeQuery();
 			if (rs.next()) {
-				result = rs.getString("NAME");
+				result = rs.getString("ID");
 			}
 		} catch (Exception e) {
 			logger.error(e, e);

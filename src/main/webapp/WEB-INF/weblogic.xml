@@ -10,7 +10,8 @@
 			<wls:package-name>org.apache.commons.pool.*</wls:package-name>
 			<wls:package-name>org.slf4j.*</wls:package-name>
 			<wls:package-name>org.apache.logging.*</wls:package-name>
-			<package-name>com.ctc.wstx.*</package-name>
+			<wls:package-name>javax.jms.*</wls:package-name>
+			<wls:package-name>com.ctc.wstx.*</wls:package-name>
 		</wls:prefer-application-packages>
 	</wls:container-descriptor>
 	<wls:library-ref>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:context="http://www.springframework.org/schema/context"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:tx="http://www.springframework.org/schema/tx"
-	   xmlns:camel="http://camel.apache.org/schema/spring"
-	   xmlns:util="http://www.springframework.org/schema/util"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns:context="http://www.springframework.org/schema/context"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xmlns:tx="http://www.springframework.org/schema/tx"
+			 xmlns:camel="http://camel.apache.org/schema/spring"
+			 xmlns:util="http://www.springframework.org/schema/util"
+			 xmlns:jee="http://www.springframework.org/schema/jee"
+			 xmlns="http://www.springframework.org/schema/beans"
+			 xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans.xsd
                         http://www.springframework.org/schema/context
                         http://www.springframework.org/schema/context/spring-context.xsd
@@ -14,7 +15,9 @@
                         http://camel.apache.org/schema/spring
        					http://camel.apache.org/schema/spring/camel-spring.xsd
        					http://www.springframework.org/schema/util
-       					http://www.springframework.org/schema/util/spring-util.xsd">
+       					http://www.springframework.org/schema/util/spring-util.xsd
+       					http://www.springframework.org/schema/jee
+       					http://www.springframework.org/schema/jee/spring-jee.xsd">
 	<context:annotation-config/>
 	<context:component-scan base-package="com.bpcbt.sv.camel"/>
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -38,40 +41,41 @@
 	<camel:camelContext xmlns="http://camel.apache.org/schema/spring" id="camelContext">
 		<camel:contextScan/>
 	</camel:camelContext>
-	
+
 	<bean id="jmsConnectionFactory"
 	   class="org.apache.activemq.ActiveMQConnectionFactory">
 	   <property name="brokerURL" value="${active_mq_url}" />
 	</bean>
-	 
+
 	<bean id="pooledConnectionFactory"
 	   class="org.apache.activemq.pool.PooledConnectionFactory" init-method="start" destroy-method="stop">
 	   <property name="maxConnections" value="8" />
 	   <property name="connectionFactory" ref="jmsConnectionFactory" />
 	</bean>
-	 
+
 	<bean id="jmsConfig"
 	   class="org.apache.camel.component.jms.JmsConfiguration">
 	   <property name="connectionFactory" ref="pooledConnectionFactory"/>
 	   <property name="concurrentConsumers" value="10"/>
 	</bean>
-	
+
 	<bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
 		<property name="configuration" ref="jmsConfig"/>
 	</bean>
-	
+
 	<!-- ================================== -->
 	<!-- Define netty  codecs               -->
-	<!-- ================================== --> 
+	<!-- ================================== -->
 	<!-- ChannelBuffer/ByteBuf to String -->
- 	
+
 	<bean id="decoder" class="org.apache.mina.filter.codec.textline.TextLineDecoder" />
 
 	<!-- String to ChannelBuffer/ByteBuf -->
- 
+
 	<bean id="encoder" class="com.bpcbt.sv.camel.utils.CodecFactory" >
 		<constructor-arg value="true"/>
 	</bean>
 
+	<jee:jndi-lookup id="boDataSource" jndi-name="jdbc/SVWeb" expected-type="javax.sql.DataSource"/>
 
 </beans>

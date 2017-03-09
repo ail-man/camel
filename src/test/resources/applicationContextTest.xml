@@ -42,9 +42,9 @@
 	<!-- config datasource -->
 	<bean id="boDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
-		<property name="url" value="jdbc:oracle:thin:@rescue.bpc.in:1521:svfe_sbf"/>
-		<property name="username" value="svrm_test"/>
-		<property name="password" value="1"/>
+		<property name="url" value="jdbc:oracle:thin:@sber-mpc-ol12.bt.bpc.in:1521:svbo"/>
+		<property name="username" value="main"/>
+		<property name="password" value="main1"/>
 	</bean>
 	<!--Setup datasource example 1 -->
 	<!--<jee:jndi-lookup id="dbDataSource" jndi-name="jdbc/SVWeb" expected-type="javax.sql.DataSource"/>-->
