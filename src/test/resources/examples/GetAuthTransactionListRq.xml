@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<GetAuthTransactionListRq>
+	<RqUID>string</RqUID>
+	<RqTm>string</RqTm>
+	<OperUID>string</OperUID>
+	<SPName>string</SPName>
+	<!--Optional:-->
+	<SystemId>string</SystemId>
+	<BankInfo>
+		<!--Optional:-->
+		<BranchId>string</BranchId>
+		<RegionId>stri</RegionId>
+	</BankInfo>
+	<CardInfo>
+		<CardId>10</CardId>
+		<EndDt>stri</EndDt>
+	</CardInfo>
+	<!--Optional:-->
+	<AuthenticityCode>string</AuthenticityCode>
+</GetAuthTransactionListRq>
