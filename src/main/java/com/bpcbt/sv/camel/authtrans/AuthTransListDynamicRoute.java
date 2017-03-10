@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.apache.camel.ExchangeProperty;
 
-public class AuthTransactionListDynamicRoute {
+public class AuthTransListDynamicRoute {
 
 	@SuppressWarnings("unused")
 	public String routeTo(String body, @ExchangeProperty("properties") Map<String, Object> properties) {

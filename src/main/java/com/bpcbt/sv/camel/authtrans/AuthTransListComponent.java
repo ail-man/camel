@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthTransactionListComponent {
+public class AuthTransListComponent {
 
 	private static final String COMPONENT_NAME = "wmq";
 
 	private final CamelContext camelContext;
-	private final AuthTransactionListProcessor authTransactionListProcessor;
+	private final AuthTransListProcessor authTransListProcessor;
 
 	@Value("${ibm_wmq_host}")
 	private String ibmWmqHost;
@@ -35,9 +35,9 @@ public class AuthTransactionListComponent {
 	private String ibmWmqIncomingQueueName;
 
 	@Autowired
-	public AuthTransactionListComponent(CamelContext camelContext, AuthTransactionListProcessor authTransactionListProcessor) {
+	public AuthTransListComponent(CamelContext camelContext, AuthTransListProcessor authTransListProcessor) {
 		this.camelContext = camelContext;
-		this.authTransactionListProcessor = authTransactionListProcessor;
+		this.authTransListProcessor = authTransListProcessor;
 	}
 
 	@PostConstruct
@@ -47,8 +47,8 @@ public class AuthTransactionListComponent {
 			@Override
 			public void configure() throws Exception {
 				from(COMPONENT_NAME + ":" + ibmWmqIncomingQueueName + "?username=" + ibmWmqUsername + "&password=" + ibmWmqPassword)
-						.process(authTransactionListProcessor)
-						.dynamicRouter(method(AuthTransactionListDynamicRoute.class, "routeTo"));
+						.process(authTransListProcessor)
+						.dynamicRouter(method(AuthTransListDynamicRoute.class, "routeTo"));
 			}
 		});
 	}

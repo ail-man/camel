@@ -16,15 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthTransactionListProcessor implements Processor {
+public class AuthTransListProcessor implements Processor {
 
-	private static final Logger logger = LogManager.getLogger(AuthTransactionListProcessor.class);
+	private static final Logger logger = LogManager.getLogger(AuthTransListProcessor.class);
 
 	@Resource(name = "boDataSource")
 	private final DataSource boDataSource;
 
 	@Autowired
-	public AuthTransactionListProcessor(DataSource boDataSource) {
+	public AuthTransListProcessor(DataSource boDataSource) {
 		this.boDataSource = boDataSource;
 	}
 

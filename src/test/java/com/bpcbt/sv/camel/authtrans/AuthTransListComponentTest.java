@@ -9,10 +9,10 @@ import org.springframework.test.context.ContextConfiguration;
 
 @RunWith(CamelSpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContextTest.xml" })
-public class AuthTransactionListComponentTest {
+public class AuthTransListComponentTest {
 
 	@Autowired
-	private AuthTransactionListComponent component;
+	private AuthTransListComponent component;
 
 	@Test
 	public void testApp() throws Exception {
