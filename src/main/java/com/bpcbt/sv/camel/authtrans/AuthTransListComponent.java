@@ -5,6 +5,8 @@ import javax.annotation.PostConstruct;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.wmq.WmqComponent;
+import org.apache.camel.converter.jaxb.JaxbDataFormat;
+import org.apache.camel.spi.DataFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -42,11 +44,13 @@ public class AuthTransListComponent {
 
 	@PostConstruct
 	public void init() throws Exception {
+		final DataFormat jaxb = new JaxbDataFormat("com.bpcbt.sv.camel.authtrans.schema");
 		camelContext.addComponent(COMPONENT_NAME, WmqComponent.newWmqComponent(ibmWmqHost, Integer.parseInt(ibmWmqPort), ibmWmqQueueManager, ibmWmqChannel, ibmWmqSslCipherSuite));
 		camelContext.addRoutes(new RouteBuilder() {
 			@Override
 			public void configure() throws Exception {
 				from(COMPONENT_NAME + ":" + ibmWmqIncomingQueueName + "?username=" + ibmWmqUsername + "&password=" + ibmWmqPassword)
+						.unmarshal(jaxb)
 						.process(authTransListProcessor)
 						.dynamicRouter(method(AuthTransListDynamicRoute.class, "routeTo"));
 			}

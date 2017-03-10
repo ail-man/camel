@@ -29,7 +29,8 @@
 				<prop key="javax.net.ssl.keyStorePassword">mint</prop>
 				<prop key="javax.net.ssl.trustStore">src/test/resources/APP1.jks</prop>
 				<prop key="javax.net.ssl.trustStorePassword">mint</prop>
-				<prop key="javax.net.debug">all</prop>
+				<!--<prop key="javax.net.debug">all</prop>-->
+				<!--<prop key="javax.net.debug">help</prop>-->
 				<prop key="com.ibm.mq.cfg.useIBMCipherMappings">false</prop>
 				<prop key="https.protocols">TLSv1,TLSv1.1,TLSv1.2</prop>
 			</util:properties>

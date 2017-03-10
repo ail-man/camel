@@ -8,6 +8,7 @@ import java.util.HashMap;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import com.bpcbt.sv.camel.authtrans.schema.GetAuthTransactionListRq;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.logging.log4j.LogManager;
@@ -30,10 +31,10 @@ public class AuthTransListProcessor implements Processor {
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		String msg = exchange.getIn().getBody().toString();
-		logger.info("AuthTransactionListProcessor: " + msg);
+		GetAuthTransactionListRq request = (GetAuthTransactionListRq) exchange.getIn().getBody();
+		logger.info("AuthTransactionListProcessor: " + request.getRqUID());
 		String someData = getSomeDataFromDb();
-		exchange.getOut().setBody(someData + ": " + msg);
+		exchange.getOut().setBody(someData + ": " + request.getSPName());
 
 		exchange.setProperty("properties", new HashMap<String, Object>());
 	}
