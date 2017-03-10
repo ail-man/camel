@@ -9,10 +9,10 @@ import org.springframework.test.context.ContextConfiguration;
 
 @RunWith(CamelSpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContextTest.xml" })
-public class AuthTransListComponentTest {
+public class AuthTransListRouterTest {
 
 	@Autowired
-	private AuthTransListComponent component;
+	private AuthTransListRouter component;
 
 	private static String getExampleRequest(int i) {
 		return "<?xml version=\"1.0\"?>\n"

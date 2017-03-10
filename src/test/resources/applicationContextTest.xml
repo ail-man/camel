@@ -53,6 +53,9 @@
 	<!--<bean id="boDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">-->
 	<!--<property name="jndiName" value="java:comp/env/jdbc/SVWeb"/>-->
 	<!--</bean>-->
+	<bean id="jaxbDataTypes" class="org.apache.camel.converter.jaxb.JaxbDataFormat">
+		<constructor-arg type="java.lang.String" value="com.bpcbt.sv.camel.authtrans.schema"/>
+	</bean>
 	<camel:camelContext id="camelContext">
 		<camel:contextScan/>
 	</camel:camelContext>
