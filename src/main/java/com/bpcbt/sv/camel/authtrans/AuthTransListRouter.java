@@ -50,6 +50,7 @@ public class AuthTransListRouter {
 			@Override
 			public void configure() throws Exception {
 				from(COMPONENT_NAME + ":" + ibmWmqIncomingQueueName + "?username=" + ibmWmqUsername + "&password=" + ibmWmqPassword)
+						.routeId("authTransListRoute")
 						.unmarshal(jaxbDataTypes)
 						.process(authTransListProcessor)
 						.dynamicRouter(method(AuthTransListDynamicRoute.class, "routeTo"));
