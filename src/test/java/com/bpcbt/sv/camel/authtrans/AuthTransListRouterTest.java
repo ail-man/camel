@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 public class AuthTransListRouterTest {
 
 	@Autowired
-	private AuthTransListRouter component;
+	private AuthTransListRouter router;
 
 	private static String getExampleRequest(int i) {
 		return "<?xml version=\"1.0\"?>\n"
@@ -44,10 +44,13 @@ public class AuthTransListRouterTest {
 	}
 
 	private void sendTestMessages() {
-		ProducerTemplate template = component.getCamelContext().createProducerTemplate();
+		ProducerTemplate template = router.getCamelContext().createProducerTemplate();
 		for (int i = 0; i < 10; i++) {
+			IbmWmqParams ibmWmqIncomingParams = router.getIbmWmqIncoming();
 			template.sendBodyAndHeader(
-					component.getComponentName() + ":" + component.getQueueName() + "?username=" + component.getUsername() + "&password=" + component.getPassword(),
+					ibmWmqIncomingParams.getComponentName() + ":" + ibmWmqIncomingParams.getQueueName()
+							+ "?username=" + ibmWmqIncomingParams.getUsername()
+							+ "&password=" + ibmWmqIncomingParams.getPassword(),
 					getExampleRequest(i),
 					"JMS_IBM_MQMD_ApplIdentityData",
 					"anyIdData"

@@ -7,49 +7,52 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.wmq.WmqComponent;
 import org.apache.camel.spi.DataFormat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AuthTransListRouter {
 
-	private static final String COMPONENT_NAME = "wmq";
-
 	private final CamelContext camelContext;
 	private final AuthTransListProcessor authTransListProcessor;
 	private final DataFormat jaxbDataTypes;
-
-	@Value("${ibm_wmq_host}")
-	private String ibmWmqHost;
-	@Value("${ibm_wmq_port}")
-	private String ibmWmqPort;
-	@Value("${ibm_wmq_queue_manager}")
-	private String ibmWmqQueueManager;
-	@Value("${ibm_wmq_channel}")
-	private String ibmWmqChannel;
-	@Value("${ibm_wmq_ssl_cipher_suite}")
-	private String ibmWmqSslCipherSuite;
-	@Value("${ibm_wmq_username}")
-	private String ibmWmqUsername;
-	@Value("${ibm_wmq_password}")
-	private String ibmWmqPassword;
-	@Value("${ibm_wmq_incoming_queue_name}")
-	private String ibmWmqIncomingQueueName;
+	private final IbmWmqParams ibmWmqIncoming;
+	private final IbmWmqParams ibmWmqOutgoing;
 
 	@Autowired
-	public AuthTransListRouter(CamelContext camelContext, AuthTransListProcessor authTransListProcessor, DataFormat jaxbDataTypes) {
+	public AuthTransListRouter(CamelContext camelContext, AuthTransListProcessor authTransListProcessor, DataFormat jaxbDataTypes, IbmWmqParams ibmWmqIncoming, IbmWmqParams ibmWmqOutgoing) {
 		this.camelContext = camelContext;
 		this.authTransListProcessor = authTransListProcessor;
 		this.jaxbDataTypes = jaxbDataTypes;
+		this.ibmWmqIncoming = ibmWmqIncoming;
+		this.ibmWmqOutgoing = ibmWmqOutgoing;
 	}
 
 	@PostConstruct
 	public void init() throws Exception {
-		camelContext.addComponent(COMPONENT_NAME, WmqComponent.newWmqComponent(ibmWmqHost, Integer.parseInt(ibmWmqPort), ibmWmqQueueManager, ibmWmqChannel, ibmWmqSslCipherSuite));
+		camelContext.addComponent(ibmWmqIncoming.getComponentName(),
+				WmqComponent.newWmqComponent(
+						ibmWmqIncoming.getHost(),
+						Integer.parseInt(ibmWmqIncoming.getPort()),
+						ibmWmqIncoming.getQueueManager(),
+						ibmWmqIncoming.getChannel(),
+						ibmWmqIncoming.getSslCipherSuite()
+				)
+		);
+		camelContext.addComponent(ibmWmqOutgoing.getComponentName(),
+				WmqComponent.newWmqComponent(
+						ibmWmqOutgoing.getHost(),
+						Integer.parseInt(ibmWmqOutgoing.getPort()),
+						ibmWmqOutgoing.getQueueManager(),
+						ibmWmqOutgoing.getChannel(),
+						ibmWmqOutgoing.getSslCipherSuite()
+				)
+		);
 		camelContext.addRoutes(new RouteBuilder() {
 			@Override
 			public void configure() throws Exception {
-				from(COMPONENT_NAME + ":" + ibmWmqIncomingQueueName + "?username=" + ibmWmqUsername + "&password=" + ibmWmqPassword)
+				from(ibmWmqIncoming.getComponentName() + ":" + ibmWmqIncoming.getQueueName()
+						+ "?username=" + ibmWmqIncoming.getUsername()
+						+ "&password=" + ibmWmqIncoming.getPassword())
 						.routeId("authTransListRoute")
 						.unmarshal(jaxbDataTypes)
 						.process(authTransListProcessor)
@@ -58,20 +61,8 @@ public class AuthTransListRouter {
 		});
 	}
 
-	String getComponentName() {
-		return COMPONENT_NAME;
-	}
-
-	String getQueueName() {
-		return ibmWmqIncomingQueueName;
-	}
-
-	String getUsername() {
-		return ibmWmqUsername;
-	}
-
-	String getPassword() {
-		return ibmWmqPassword;
+	IbmWmqParams getIbmWmqIncoming() {
+		return ibmWmqIncoming;
 	}
 
 	CamelContext getCamelContext() {

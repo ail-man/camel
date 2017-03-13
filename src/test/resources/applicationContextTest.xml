@@ -56,6 +56,28 @@
 	<bean id="jaxbDataTypes" class="org.apache.camel.converter.jaxb.JaxbDataFormat">
 		<constructor-arg type="java.lang.String" value="com.bpcbt.sv.camel.authtrans.schema"/>
 	</bean>
+	<bean id="ibmWmqIncoming" class="com.bpcbt.sv.camel.authtrans.IbmWmqParams">
+		<property name="componentName" value="wmqIncoming"/>
+		<property name="host" value="${ibm_wmq_incoming_host}"/>
+		<property name="port" value="${ibm_wmq_incoming_port}"/>
+		<property name="queueManager" value="${ibm_wmq_incoming_queue_manager}"/>
+		<property name="channel" value="${ibm_wmq_incoming_channel}"/>
+		<property name="sslCipherSuite" value="${ibm_wmq_incoming_ssl_cipher_suite}"/>
+		<property name="username" value="${ibm_wmq_incoming_username}"/>
+		<property name="password" value="${ibm_wmq_incoming_password}"/>
+		<property name="queueName" value="${ibm_wmq_incoming_queue_name}"/>
+	</bean>
+	<bean id="ibmWmqOutgoing" class="com.bpcbt.sv.camel.authtrans.IbmWmqParams">
+		<property name="componentName" value="wmqOutgoing"/>
+		<property name="host" value="${ibm_wmq_outgoing_host}"/>
+		<property name="port" value="${ibm_wmq_outgoing_port}"/>
+		<property name="queueManager" value="${ibm_wmq_outgoing_queue_manager}"/>
+		<property name="channel" value="${ibm_wmq_outgoing_channel}"/>
+		<property name="sslCipherSuite" value="${ibm_wmq_outgoing_ssl_cipher_suite}"/>
+		<property name="username" value="${ibm_wmq_outgoing_username}"/>
+		<property name="password" value="${ibm_wmq_outgoing_password}"/>
+		<property name="queueName" value="${ibm_wmq_outgoing_queue_name}"/>
+	</bean>
 	<camel:camelContext id="camelContext">
 		<camel:contextScan/>
 	</camel:camelContext>
