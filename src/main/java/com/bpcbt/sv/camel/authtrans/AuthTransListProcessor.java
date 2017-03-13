@@ -8,27 +8,43 @@ import java.util.HashMap;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import static com.bpcbt.sv.camel.authtrans.AuthTransListDynamicRoute.HEADER_IBM_WMQ_OUTGOING;
 import com.bpcbt.sv.camel.authtrans.schema.GetAuthTransactionListRq;
+import com.bpcbt.sv.camel.authtrans.schema.GetAuthTransactionListRs;
+import com.bpcbt.sv.camel.authtrans.schema.ObjectFactory;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AuthTransListProcessor implements Processor {
 
 	private static final Logger logger = LogManager.getLogger(AuthTransListProcessor.class);
-
+	private final IbmWmqParams ibmWmqOutgoing;
 	@Resource(name = "boDataSource")
 	private DataSource boDataSource;
+
+	@Autowired
+	public AuthTransListProcessor(IbmWmqParams ibmWmqOutgoing) {
+		this.ibmWmqOutgoing = ibmWmqOutgoing;
+	}
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		GetAuthTransactionListRq request = (GetAuthTransactionListRq) exchange.getIn().getBody();
 		logger.info("AuthTransactionListProcessor: " + request.getRqUID());
+
 		String someData = getSomeDataFromDb();
-		exchange.getOut().setBody(someData + ": " + request.getSPName());
+
+		ObjectFactory objectFactory = new ObjectFactory();
+		GetAuthTransactionListRs response = objectFactory.createGetAuthTransactionListRs();
+		response.setSPName(someData + ": " + request.getSPName());
+
+		exchange.getOut().setBody(response);
+		exchange.getOut().setHeader(HEADER_IBM_WMQ_OUTGOING, ibmWmqOutgoing);
 
 		exchange.setProperty("properties", new HashMap<String, Object>());
 	}

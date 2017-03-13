@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthTransListRouter {
 
+	private static final String AUTH_TRANS_LIST_ROUTE_NAME = "authTransListRoute";
 	private final CamelContext camelContext;
 	private final AuthTransListProcessor authTransListProcessor;
 	private final DataFormat jaxbDataTypes;
@@ -32,7 +33,7 @@ public class AuthTransListRouter {
 		camelContext.addComponent(ibmWmqIncoming.getComponentName(),
 				WmqComponent.newWmqComponent(
 						ibmWmqIncoming.getHost(),
-						Integer.parseInt(ibmWmqIncoming.getPort()),
+						ibmWmqIncoming.getPort(),
 						ibmWmqIncoming.getQueueManager(),
 						ibmWmqIncoming.getChannel(),
 						ibmWmqIncoming.getSslCipherSuite()
@@ -41,7 +42,7 @@ public class AuthTransListRouter {
 		camelContext.addComponent(ibmWmqOutgoing.getComponentName(),
 				WmqComponent.newWmqComponent(
 						ibmWmqOutgoing.getHost(),
-						Integer.parseInt(ibmWmqOutgoing.getPort()),
+						ibmWmqOutgoing.getPort(),
 						ibmWmqOutgoing.getQueueManager(),
 						ibmWmqOutgoing.getChannel(),
 						ibmWmqOutgoing.getSslCipherSuite()
@@ -50,12 +51,11 @@ public class AuthTransListRouter {
 		camelContext.addRoutes(new RouteBuilder() {
 			@Override
 			public void configure() throws Exception {
-				from(ibmWmqIncoming.getComponentName() + ":" + ibmWmqIncoming.getQueueName()
-						+ "?username=" + ibmWmqIncoming.getUsername()
-						+ "&password=" + ibmWmqIncoming.getPassword())
-						.routeId("authTransListRoute")
+				from(ibmWmqIncoming.buildUri())
+						.routeId(AUTH_TRANS_LIST_ROUTE_NAME)
 						.unmarshal(jaxbDataTypes)
 						.process(authTransListProcessor)
+						.unmarshal(jaxbDataTypes)
 						.dynamicRouter(method(AuthTransListDynamicRoute.class, "routeTo"));
 			}
 		});

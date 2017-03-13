@@ -4,7 +4,7 @@ public class IbmWmqParams {
 
 	private String componentName;
 	private String host;
-	private String port;
+	private int port;
 	private String queueManager;
 	private String channel;
 	private String sslCipherSuite;
@@ -28,12 +28,12 @@ public class IbmWmqParams {
 		this.host = host;
 	}
 
-	public String getPort() {
+	public int getPort() {
 		return port;
 	}
 
 	public void setPort(String port) {
-		this.port = port;
+		this.port = Integer.parseInt(port);
 	}
 
 	public String getQueueManager() {
@@ -82,5 +82,19 @@ public class IbmWmqParams {
 
 	public void setQueueName(String queueName) {
 		this.queueName = queueName;
+	}
+
+	public String buildUri() {
+		return componentName
+				+ ":" + queueName
+				+ "?username=" + username
+				+ "&password=" + password;
+	}
+
+	public String buildUri(String queueName) {
+		return componentName
+				+ ":" + queueName
+				+ "?username=" + username
+				+ "&password=" + password;
 	}
 }

@@ -40,7 +40,7 @@ public class AuthTransListRouterTest {
 	@Test
 	public void testApp() throws Exception {
 		sendTestMessages();
-		Thread.sleep(1000);
+		Thread.sleep(3000);
 	}
 
 	private void sendTestMessages() {
